@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Editorial: Why UK Kitchens are Swapping Plastic for Titanium</title>
+    <meta content="Review of the Yooje Titanium Cutting Board." name="description" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <style type="text/tailwindcss">
+        @layer base {
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    }
+    :root {
+        /* --- 原 code2 变量 --- */
+        --primary-color: #1B4D3E;
+        --secondary-color: #1e3a8a;
+        --accent-gold: #D4AF37;
+        --slate-charcoal: #121212;
+        
+        /* --- 从 code1 移植的变量 (用于弹出窗口) --- */
+        --accent-red: #dc2626;
+        --navy-deep: #0a1930;
+    }
+
+    /* --- 移植的弹出窗口显示控制 --- */
+    #exit-intent-popup {
+        display: none;
+    }
+    #exit-intent-popup.active {
+        display: flex;
+    }
+
+    /* --- 新增：用于移植版块的样式微调 --- */
+    .calc-btn.active {
+        /* background-color: #f0fdf4; green-50 equivalent */
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+        box-shadow: 0 0 0 1px var(--secondary-color);
+    }
+    .usage-btn.active {
+        background-color: var(--secondary-color);
+        color: white;
+        border-color: var(--secondary-color);
+    }
+    .gallery-overlay {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 1rem;
+    }
+    .img-cover {
+        width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease;
+    }
+    .gallery-item:hover .img-cover {
+        transform: scale(1.05);
+    }
+    #comment-modal:target {
+            display: flex;
+        }
+</style>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1B4D3E", // British Racing Green
+                        secondary: "#1e3a8a", // Navy Blue
+                        "accent-gold": "#D4AF37",
+                        "background-light": "#ffffff",
+                        "background-dark": "#0f172a", // Slate 900
+                        "surface-light": "#f8fafc",
+                        "surface-dark": "#1e293b", // Slate 800
+                    },
+                    fontFamily: {
+                        display: ["Playfair Display", "serif"],
+                        body: ["Lora", "serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "4px",
+                    },
+                },
+            },
+        };
+
+        /* ============================================================
+           1. 移植部分：弹出窗口逻辑 
+           ============================================================ */
+        let timerStarted = false;
+        let timeLeft = 600;
+        function startTimer() {
+            if (timerStarted) return;
+            timerStarted = true;
+            const display = document.getElementById('countdown-timer');
+            const interval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                display.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) clearInterval(interval);
+                timeLeft--;
+            }, 1000);
+        }
+        document.addEventListener('mouseleave', (e) => {
+            // if (e.clientY < 0) {
+            //     const popup = document.getElementById('exit-intent-popup');
+            //     if (!popup.classList.contains('active')) {
+            //         popup.classList.add('active');
+            //         startTimer();
+            //     }
+            // }
+        });
+        function closePopup() {
+            document.getElementById('exit-intent-popup').classList.remove('active');
+        }
+
+        /* ============================================================
+           2. 移植部分：计算器与交互逻辑 (来自 6.html)
+           已调整为适配 code2 的 Material Icons 和颜色变量
+           ============================================================ */
+        let calcState = { material: 'plastic', age: 2, usage: 2 };
+
+        function setCalc(mat) {
+            calcState.material = mat;
+            document.querySelectorAll('.calc-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${mat}`).classList.add('active');
+            updateCalculator();
+        }
+
+        function setUsage(level) {
+            calcState.usage = level;
+            document.querySelectorAll('.usage-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-white', 'text-gray-500'); // 重置样式
+            });
+            const activeBtn = document.getElementById(`use-${level}`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-white', 'text-gray-500');
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            calcState.age = parseFloat(document.getElementById('age-slider').value);
+            const ageText = calcState.age === 0 ? "Brand New" : calcState.age + (calcState.age === 5 ? "+ Years" : " Years");
+            document.getElementById('age-display').innerText = ageText;
+
+            const bacteriaVal = document.getElementById('bacteria-val');
+            const bacteriaBar = document.getElementById('bacteria-bar');
+            const plasticVal = document.getElementById('plastic-val');
+            const plasticBar = document.getElementById('plastic-bar');
+            const fragilityVal = document.getElementById('fragility-val');
+            const fragilityBar = document.getElementById('fragility-bar');
+            const riskBadge = document.getElementById('risk-badge');
+
+            const recBox = document.getElementById('rec-box');
+            const recIcon = document.getElementById('rec-icon'); // Material Icon element
+            const recTitle = document.getElementById('rec-title');
+            const recText = document.getElementById('rec-text');
+
+            const usageMult = calcState.usage === 1 ? 0.7 : (calcState.usage === 3 ? 1.5 : 1.0);
+
+            // 逻辑判断 
+            if (calcState.material === 'titanium') {
+                riskBadge.innerText = "SAFE";
+                riskBadge.className = "bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold";
+
+                bacteriaVal.innerText = "< 10 (Sterile)"; bacteriaVal.className = "font-bold text-primary";
+                bacteriaBar.style.width = "1%"; bacteriaBar.className = "h-full bg-primary transition-all duration-1000";
+
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Unbreakable"; fragilityVal.className = "font-bold text-primary";
+                fragilityBar.style.width = "0%"; fragilityBar.className = "h-full bg-primary transition-all duration-1000";
+
+                recBox.className = "bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "check_circle"; recIcon.className = "material-icons text-primary mt-1 text-lg";
+                recTitle.innerText = "Excellent Choice"; recText.innerText = "Titanium is non-porous and naturally anti-bacterial.";
+            }
+            else if (calcState.material === 'glass') {
+                riskBadge.innerText = "HIGH RISK";
+                riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
+
+                bacteriaVal.innerText = "Moderate-High (Biofilm)"; bacteriaVal.className = "font-bold text-orange-600";
+                bacteriaBar.style.width = "65%"; bacteriaBar.className = "h-full bg-orange-500 transition-all duration-1000";
+
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Critical (Explosive Shatter)"; fragilityVal.className = "font-bold text-red-600";
+                fragilityBar.style.width = "100%"; fragilityBar.className = "h-full bg-red-600 transition-all duration-1000";
+
+                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "warning"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
+                recTitle.innerText = "Safety Hazard Detected"; recText.innerText = "Glass surfaces pose severe shattering risks and ruin knife edges.";
+            }
+            else if (calcState.material === 'plastic') {
+                const plasticGrams = calcState.age === 0 ? 0.5 : (calcState.age * 5 * usageMult).toFixed(1);
+                const cards = (plasticGrams / 5).toFixed(1);
+
+                plasticVal.innerText = `${plasticGrams}g (~${Math.max(0.1, cards)} Credit Cards)`;
+                plasticBar.style.width = Math.min(100, (plasticGrams / 25) * 100) + "%";
+
+                fragilityVal.innerText = "Low"; fragilityVal.className = "font-bold text-gray-500";
+                fragilityBar.style.width = "10%"; fragilityBar.className = "h-full bg-gray-300 transition-all duration-1000";
+
+                let bacLevel = calcState.age > 1 ? "Biohazard Level" : "Moderate";
+                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-red-600";
+                bacteriaBar.style.width = calcState.age > 1 ? "95%" : "50%"; bacteriaBar.className = "h-full bg-red-600 transition-all duration-1000";
+
+                riskBadge.innerText = "CRITICAL RISK"; riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
+
+                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "dangerous"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
+                recTitle.innerText = "Action Required Immediately"; recText.innerText = "Active shedding of microplastics and deep pathogen breeding grounds.";
+            }
+            else { // WOOD
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Low (Splinters)"; fragilityVal.className = "font-bold text-orange-400";
+                fragilityBar.style.width = "20%"; fragilityBar.className = "h-full bg-orange-400 transition-all duration-1000";
+
+                let bacLevel = calcState.age > 1 ? "High Risk (Deep Pores)" : "Moderate";
+                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-orange-600";
+                bacteriaBar.style.width = calcState.age > 1 ? "85%" : "50%"; bacteriaBar.className = "h-full bg-orange-600 transition-all duration-1000";
+
+                riskBadge.innerText = "HIGH RISK"; riskBadge.className = "bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold";
+
+                recBox.className = "bg-orange-50 border border-orange-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "info"; recIcon.className = "material-icons text-orange-600 mt-1 text-lg";
+                recTitle.innerText = "Difficult to Sanitize"; recText.innerText = "Wood is extremely porous. Meat juices seep deep into the grain where sponges cannot reach.";
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            setCalc('plastic');
+
+            // --- 初始化 Chart.js 图表 (保留 6.html 的图表) ---
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.color = '#64748b';
+
+            // 1. Radar Chart
+            const ctxRadar = document.getElementById('radarChart');
+            if (ctxRadar) {
+                new Chart(ctxRadar.getContext('2d'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['Hygiene', 'Knife Friendly', 'Durability', 'Ease of Clean', 'Eco-Friendly'],
+                        datasets: [
+                            { label: 'Titanium (Ti-1067)', data: [10, 9, 10, 10, 10], borderColor: '#1B4D3E', backgroundColor: 'rgba(27, 77, 62, 0.2)', borderWidth: 2 },
+                            { label: 'Plastic', data: [3, 7, 4, 6, 2], borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderWidth: 1 },
+                            { label: 'Wood', data: [6, 10, 6, 4, 8], borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', borderWidth: 1 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#e2e8f0' }, grid: { color: '#e2e8f0' }, pointLabels: { font: { size: 11, weight: 'bold' }, color: '#475569' }, suggestedMin: 0, suggestedMax: 10 } }, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
+
+            // 2. Bar Chart (Bacteria)
+            const ctxBacteria = document.getElementById('bacteriaChart');
+            if (ctxBacteria) {
+                new Chart(ctxBacteria, {
+                    type: 'bar',
+                    data: { labels: ['Titanium', 'Glass', 'Hard Wood', 'Plastic'], datasets: [{ label: 'CFU Count', data: [12, 80, 420, 1150], backgroundColor: ['#1B4D3E', '#94a3b8', '#f59e0b', '#ef4444'], borderRadius: 6 }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, title: { display: true, text: 'Bacteria Load' } }, x: { grid: { display: false } } } }
+                });
+            }
+
+            // 3. Scatter Plot (Hardness)
+            const ctxHardness = document.getElementById('hardnessChart');
+            if (ctxHardness) {
+                new Chart(ctxHardness, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [
+                            { label: 'Titanium (Ideal)', data: [{ x: 8.5, y: 9 }], backgroundColor: '#1B4D3E', pointRadius: 10 },
+                            { label: 'Plastic (Toxic)', data: [{ x: 3, y: 5 }], backgroundColor: '#ef4444', pointRadius: 8 },
+                            { label: 'Glass (Unsafe)', data: [{ x: 10, y: 2 }], backgroundColor: '#94a3b8', pointRadius: 8 },
+                            { label: 'Wood (Porous)', data: [{ x: 6, y: 7 }], backgroundColor: '#f59e0b', pointRadius: 8 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Hygiene' }, min: 0, max: 11, grid: { display: false } }, y: { title: { display: true, text: 'Knife Safety' }, min: 0, max: 11, grid: { display: false } } }, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
+        });
+    </script>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 font-body antialiased transition-colors duration-200">
+
+    <div class="fixed inset-0 z-[1000] items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xl transition-all duration-300"
+        id="exit-intent-popup">
+        <div
+            class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border-2 border-[var(--accent-gold)] shadow-[0_0_80px_rgba(212,175,55,0.4)] overflow-hidden">
+            <div
+                class="bg-[var(--navy-deep)] py-4 px-6 flex justify-between items-center border-b border-[var(--accent-gold)]/30">
+                <div class="flex items-center gap-3 text-[var(--accent-gold)]">
+                    <span class="material-symbols-outlined text-2xl animate-pulse">lock_clock</span>
+                    <span class="font-sans font-bold text-xs tracking-[0.3em] uppercase">Locked Offer: Limited
+                        Opportunity</span>
+                </div>
+                <div class="bg-red-600 px-5 py-2 rounded-lg text-white font-mono font-bold text-xl tracking-widest shadow-[0_0_20px_rgba(220,38,38,0.5)]"
+                    id="countdown-timer">
+                    10:00
+                </div>
+            </div>
+            <div class="p-8 md:p-12 text-center">
+                <h2
+                    class="text-3xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                    WAIT! Your Health Upgrade is Expiring...
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 font-body text-xl mb-10 max-w-lg mx-auto">
+                    Don't leave your family's safety to chance. We've unlocked an exclusive <span
+                        class="text-[var(--accent-red)] font-bold">50% OFF</span> saving for your first order.
+                </p>
+                <div
+                    class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-6 border-2 border-dashed border-[var(--accent-gold)]/40 mb-10 flex flex-col md:flex-row items-center gap-8 text-left relative">
+                    <div class="absolute -top-4 -right-4 rotate-12">
+                        <span
+                            class="bg-[var(--accent-gold)] text-[var(--navy-deep)] font-bold px-4 py-2 rounded shadow-lg text-sm uppercase tracking-widest">50%
+                            OFF</span>
+                    </div>
+                    <img alt="Product Bundle"
+                        class="w-36 h-36 object-contain rounded-xl bg-white p-3 border border-gray-100 shadow-sm"
+                        src="./assets/Check.png" />
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span
+                                class="bg-[var(--navy-deep)] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most
+                                Requested</span>
+                            <span
+                                class="text-[var(--accent-red)] font-bold text-xs uppercase tracking-tight flex items-center gap-1">
+                                <span class="material-icons text-sm">local_fire_department</span> Only 14 sets left
+                            </span>
+                        </div>
+                        <h4 class="text-2xl font-display font-bold text-gray-900 dark:text-white mb-1">Kitchen Hygiene
+                            Bundle</h4>
+                        <p class="text-sm text-gray-500 mb-4">Premium Grade Titanium • Lifetime Guarantee</p>
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl font-bold text-gray-900 dark:text-white">£119.00</span>
+                            <span class="text-lg text-gray-400 line-through">£238.00</span>
+                            <span
+                                class="bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300 text-[11px] font-bold px-3 py-1.5 rounded-full border border-green-200 dark:border-green-800 uppercase tracking-widest">
+                                FREE UK DELIVERY
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-5">
+                    <a class="w-full bg-primary hover:bg-green-800 text-white font-bold py-6 rounded-xl shadow-2xl hover:shadow-[0_20px_50px_rgba(27,77,62,0.4)] transition-all transform hover:-translate-y-1 text-2xl flex items-center justify-center gap-3"
+                        href="#offer" onclick="closePopup()">
+                        Claim My 50% Savings Now
+                        <span class="material-icons">keyboard_double_arrow_right</span>
+                    </a>
+                    <button
+                        class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-sm underline transition-colors decoration-dotted underline-offset-4"
+                        onclick="closePopup()">
+                        No thanks, I'll risk it with my current board
+                    </button>
+                </div>
+            </div>
+            <div
+                class="bg-gray-50 dark:bg-slate-800/80 py-3 px-6 text-center border-t border-gray-100 dark:border-gray-700">
+                <p class="text-[10px] text-gray-400 uppercase tracking-[0.2em] flex items-center justify-center gap-4">
+                    <span>Verified Secure Checkout</span>
+                    <span class="h-1 w-1 bg-gray-300 rounded-full"></span>
+                    <span>30-Day Money Back</span>
+                    <span class="h-1 w-1 bg-gray-300 rounded-full"></span>
+                    <span>UK Based Support</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w-full bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-2">
+        <div
+            class="max-w-7xl mx-auto px-4 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+            <span>Advertisement</span>
+            <span>Food & Lifestyle • United Kingdom</span>
+        </div>
+    </div>
+
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <article class="lg:col-span-8">
+                <header class="mb-8">
+                    <span
+                        class="inline-block py-1 px-3 bg-red-600 text-white text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Trending
+                        in UK</span>
+                    <h1
+                        class="text-3xl md:text-5xl font-display font-bold text-gray-900 dark:text-white leading-tight mb-4">
+                        Warning for UK Families: The Cutting Board in Your Kitchen Could Be Shedding the Equivalent of a
+                        Credit Card's Worth of Plastic Into Your Food Each Year
+                    </h1>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 italic font-display">
+                        We thought we were being hygienic by ditching wood. But scientists warn that the "microplastic
+                        seasoning" from your white poly-board might be the biggest hidden toxin in your kitchen.
+                    </p>
+                    <div
+                        class="flex items-center mt-6 space-x-4 border-t border-b border-gray-200 dark:border-gray-700 py-4">
+                        <img alt="Author" class="w-12 h-12 rounded-full object-cover" src="./assets/author.webp" />
+                        <div class="text-sm">
+                            <p class="font-bold text-gray-900 dark:text-white">By Thomas Wright</p>
+                            <p class="text-gray-500 dark:text-gray-400">Published Today • 5 min read</p>
+                        </div>
+                    </div>
+                </header>
+
+
+                <section class="my-12 relative">
+                    <div
+                        class="bg-[var(--slate-charcoal)] rounded-xl md:p-1 border border-[var(--accent-gold)] shadow-2xl overflow-hidden">
+                        <div class="relative group">
+                            <div
+                                class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500 z-10 flex flex-col justify-center items-center text-center px-6">
+                                <!-- <div class="mb-8 transform group-hover:scale-110 transition-transform duration-500">
+                                    <span
+                                        class="material-symbols-outlined text-white text-7xl md:text-8xl opacity-90 drop-shadow-lg">play_circle</span>
+                                </div> -->
+                                <h2
+                                    class="text-2xl md:text-4xl font-display italic text-white leading-tight max-w-2xl drop-shadow-md">
+                                    "suggests the average person ingests approx.5 grams of plastic weekly!"
+                                </h2>
+                            </div>
+                            <img alt="Chef Julian slicing ingredients on Yooje board"
+                                class="w-full h-[500px] object-cover opacity-80 brightness-75" src="./assets/h.webp" />
+                            <div class="absolute bottom-6 right-6 z-20 text-right">
+                                <p
+                                    class="text-[var(--accent-gold)] font-display text-2xl md:text-3xl italic tracking-wide mb-1">
+                                    By the University of Newcastle</p>
+                                <!-- <p class="text-white text-xs md:text-sm uppercase tracking-[0.2em] opacity-80">
+                                    Executive Chef, The Gilded Rose, London</p> -->
+                            </div>
+                            <div class="absolute top-6 left-6 z-20 flex items-center space-x-2">
+                                <span
+                                    class="bg-[var(--accent-gold)] text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Landmark
+                                    study</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 图下按钮 -->
+                    <!-- <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a class="inline-block bg-primary hover:bg-green-800 text-white font-bold text-lg py-4 px-10 rounded-lg shadow-lg transform transition hover:scale-105 w-full md:w-auto text-center"
+                            href="#offer">
+                            Claim Your 50% Discount →
+                        </a>
+                        <a class="inline-block bg-transparent border-2 border-[var(--accent-gold)] hover:bg-[var(--accent-gold)] hover:text-black text-[var(--accent-gold)] font-bold text-lg py-4 px-10 rounded-lg shadow-lg transform transition hover:scale-105 w-full md:w-auto text-center uppercase tracking-wide"
+                            href="#offer">
+                            See the Pro-Choice Bundle
+                        </a>
+                    </div> -->
+                </section>
+
+
+                <div class="prose prose-lg prose-slate dark:prose-invert max-w-none font-body">
+                    <p
+                        class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-1 float-left">
+                        L</p>
+                    <p>
+                        ast Sunday, whilst preparing a traditional Sunday Roast for my family, <strong>I noticed
+                            something that turned my stomach.</strong> As I scraped the chopped carrots into the pot.
+                        <strong>I saw tiny, white flecks mixed in
+                            with the
+                            orange vegetables.</strong>
+                    </p>
+                    <p>At first, I thought it was Salt and pepper. I picked a piece up and rubbed it
+                        between my fingers. It didn't crumble. <strong>It was plastic.</strong> I stopped cooking
+                        immediately and
+                        took a
+                        closer look at <strong>my white polyethylene chopping board</strong>.</p>
+
+                    <p>
+                        It was a board I’d used for ages. But looking closely, <strong>the centre was covered in
+                            thousands of
+                            deep, jagged cuts</strong>. Some areas had become fuzzy and rough—scars left behind by
+                        countless knife
+                        slices over the years.
+                    </p>
+
+
+
+
+                    <!-- <div
+                        class="my-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white dark:bg-slate-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-red-600"></div>
+                        <div class="relative">
+                            <img alt="The Hidden Danger: Scratched plastic board"
+                                class="w-full h-64 object-cover rounded-lg shadow-inner mb-3" src="./assets/old.webp">
+                            <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest text-center mt-2">
+                                Magnified 50x: A Microbial Canyon</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div
+                                class="bg-gray-50 dark:bg-slate-900 p-6 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700 text-center">
+                                <span class="material-icons text-6xl text-gray-300 mb-3">credit_card</span>
+                                <h4 class="font-display font-bold text-2xl text-gray-900 dark:text-white leading-tight">
+                                    "You are eating one of these every year"</h4>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">
+                                Studies from <strong>North Dakota State University</strong> and <strong>The
+                                    Guardian</strong> reports confirm that a single plastic board can shed up to 50g of
+                                microplastics into your food annually.
+                            </p>
+                        </div>
+                    </div> -->
+
+
+
+
+
+                    <div class="mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <img alt="Scratched plastic board macro" class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/my board 1.webp" />
+                                    <div
+                                        class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 uppercase rounded">
+                                        My board</div>
+                                </div>
+
+                            </div>
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <img alt="Smooth Titanium Surface" class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/my board 2.webp" />
+                                    <div
+                                        class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 uppercase rounded">
+                                        Details</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="w-full text-sm text-center text-gray-500 italic mt-0"><strong>The Risk:</strong>
+                            Deep
+                            microscopic grooves harbor bacteria and release microplastics.</p>
+                    </div>
+
+
+                    <h3 class="text-secondary dark:text-blue-300 font-display font-bold text-2xl mt-8 mb-4">Where did
+                        all that missing plastic go?</h3>
+                    <blockquote
+                        class="border-l-4 border-red-300 pl-4 italic text-xl text-gray-700 dark:text-gray-300 my-6 bg-red-50 dark:bg-red-900/20 p-4 rounded-r-lg">
+                        It didn’t just vanish into thin air. It went into my roast chicken. It went into my children's
+                        mash. And eventually, it went into our bodies.
+                    </blockquote>
+
+                    <p>It was an invisible health crisis right on my kitchen worktop. I wasn't just being paranoid.
+                        Later that evening, <strong> did some digging, and what I found kept me up at night</strong>.
+                    </p>
+
+
+                    <!-- <h3 class="text-secondary dark:text-blue-300 font-display font-bold text-2xl mt-8 mb-4">What most
+                        people don't know:</h3>
+                    <div
+                        class="bg-surface-light dark:bg-surface-dark p-6 rounded-lg border-l-4 border-secondary my-6 shadow-sm">
+                        <ul class="list-none space-y-4 m-0 p-0">
+                            <li class="flex items-start">
+                                <span class="material-icons text-red-500 mr-2 mt-1">warning</span>
+                                <span><strong>According to a groundbreaking study by North Dakota State
+                                        University,</strong> chopping carrots on a standard plastic board releases up to
+                                    15mg of microplastics per cut. That might not sound like much, but if you cook every
+                                    day like I do, it means you and your family could be ingesting up to 50 grams of
+                                    microplastic a year. To put that into perspective: That is the equivalent of eating
+                                    an entire credit card. Every. Single. Year.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="material-icons text-red-500 mr-2 mt-1">warning</span>
+                                <span><strong>A recent report in The Guardian</strong> highlighted that scientists have
+                                    already found traces of microplastics in human blood, lungs, and even brain tissue.
+                                    Whilst the long-term effects are still being studied, experts widely worry that
+                                    these foreign substances could be a key culprit behind the recent surge in
+                                    inflammation, hormone imbalances, and autoimmune issues.</span>
+                            </li>
+                        </ul>
+                    </div> -->
+
+
+
+
+                    <section class="my-12 bg-[#0a1930] text-white p-8 rounded-xl shadow-2xl relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-64 h-64 bg-blue-500 opacity-5 rounded-full -mr-32 -mt-32 blur-3xl">
+                        </div>
+                        <div
+                            class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 opacity-5 rounded-full -ml-32 -mb-32 blur-3xl">
+                        </div>
+                        <div class="relative z-10">
+                            <div class="flex items-center space-x-3 mb-6">
+                                <span
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-600 animate-pulse">
+                                    <span class="material-icons text-white text-sm">priority_high</span>
+                                </span>
+                                <span class="text-xs font-bold uppercase tracking-[0.2em] text-blue-200">Special Health
+                                    Report</span>
+                            </div>
+                            <h2 class="text-3xl font-display font-bold mb-6 text-white border-l-4 border-red-500 pl-4">
+                                The Invisible Threat: Microplastics in the British Kitchen</h2>
+                            <div class="grid md:grid-cols-2 gap-8 items-center mb-8">
+                                <div>
+                                    <p class="text-blue-100 mb-4 leading-relaxed font-body">
+                                        Recent laboratory analyses have uncovered a disturbing reality in modern food
+                                        preparation. When a serrated or sharp knife cuts across a standard plastic
+                                        polyethylene board, it doesn't just slice food—it creates microscopic furrows.
+                                    </p>
+                                    <p class="text-blue-100 mb-6 leading-relaxed font-body">
+                                        A startling study from the <span
+                                            class="italic font-semibold text-white">Department of Environmental
+                                            Chemistry</span> suggests that a heavily used plastic chopping board can
+                                        shed approximately <strong class="text-red-400">50g of microplastic shavings
+                                            annually</strong>. That is the equivalent of eating two credit cards worth
+                                        of plastic every year, unknowingly mixed into your family's meals.
+                                    </p>
+                                </div>
+                                <div class="relative group">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-[#0a1930] via-transparent to-transparent opacity-60 z-10">
+                                    </div>
+                                    <img alt="Microscopic view of plastic fibers in food sample"
+                                        class="rounded-lg shadow-lg border border-blue-800 w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500"
+                                        src="./assets/old.webp" />
+                                    <div class="absolute bottom-8 left-4 z-20">
+                                        <span
+                                            class="bg-black/70 backdrop-blur-sm px-3 py-1 rounded text-xs text-white font-mono border border-white/20">
+                                            FIG 1.A: MICROSCOPIC VIEW (500x)
+                                        </span>
+                                        <p class="text-xs text-gray-300 mt-1 max-w-[250px]">Polyethylene
+                                            fibers embedded in organic food matter after standard chopping.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-blue-900/30 border border-blue-800 rounded-lg p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-icons text-blue-400 text-3xl">science</span>
+                                    <div class="text-sm">
+                                        <p class="font-bold text-white">Stop the contamination cycle.</p>
+                                        <p class="text-blue-200">Switch to a non-shedding Titanium surface
+                                            today.</p>
+                                    </div>
+                                </div>
+                                <a class="inline-flex items-center text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 py-2 px-4 rounded transition-colors shadow-lg hover:shadow-blue-500/25"
+                                    href="#">
+                                    Hygiene Risk Calculator
+                                    <span class="material-icons text-sm ml-1">arrow_forward</span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <p>Every time my knife had hit the board, it hadn't just cut the meat. It had carved microscopic
+                        ribbons of plastic straight into my children's dinner.In that moment, I decided to bin every
+                        plastic board I
+                        owned.</p>
+
+                    <h3 class="text-secondary dark:text-blue-300 font-display font-bold text-2xl mt-8 mb-4">What could I
+                        replace them with?</h3>
+
+                    <p>I needed professional advice. So, I texted my friend James, an Executive Chef at one of London's
+                        top kitchens.
+
+                    </p>
+
+
+                    <div
+                        class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
+                        <img alt="Chef James in Kitchen"
+                            class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+                            src="./assets/Chef James.webp">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
+                            <div
+                                class="bg-white/95 backdrop-blur-sm p-5 rounded-2xl rounded-bl-none max-w-md ml-auto mr-4 mb-6 shadow-xl transform translate-y-2 border border-gray-200">
+                                <p class="text-gray-800 font-sans text-sm italic leading-relaxed">
+                                    "Stop using plastic, mate. In the pro kitchens, we are moving to Titanium. It's the
+                                    only surface that's truly sanitary and tough enough for service."
+                                </p>
+                                <div class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-200">
+                                    <span class="material-icons text-[var(--secondary-color)] text-sm">verified</span>
+                                    <p class="text-[var(--secondary-color)] font-bold text-xs uppercase tracking-wide">
+                                        Chef James, London</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prose prose-lg prose-stone dark:prose-invert max-w-none font-body">
+                        <h3 class="font-display font-bold text-2xl text-[var(--secondary-color)]">The Solution: Yooje™
+                            Titanium</h3>
+                        <p>
+                            James introduced me to the <strong>Yooje™ Titanium Board</strong>. It wasn't just a
+                            chopping board; it felt like medical-grade equipment engineered for the home.
+                        </p>
+                    </div>
+                    <div class="mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <img alt="Scratched plastic board macro" class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/board show 1.webp" />
+                                    <div
+                                        class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 uppercase rounded">
+                                        Standard Plastic</div>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <img alt="Smooth Titanium Surface" class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/board show 2.webp" />
+                                    <div
+                                        class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 uppercase rounded">
+                                        Yooje Titanium</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="w-full text-sm text-center text-gray-500 italic mt-0 pt-0"><strong>The
+                                Solution:</strong>
+                            Medical-grade titanium remains smooth, non-porous and bacteria-free.</p>
+                    </div>
+
+
+
+
+
+
+                    <!-- 产品特点 -->
+                    <h3
+                        class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
+                        What makes Yooje™ so special?
+                    </h3>
+
+
+
+
+
+                    <ul class="space-y-2 mb-8 list-none pl-0">
+                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
+                            <strong>Non-porous surface:</strong> No micro-cracks for meat juices or bacteria.
+                        </li>
+                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
+                            <strong>No abrasion:</strong> Unlike plastic, titanium doesn't release particles into food.
+                        </li>
+                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
+                            <strong>Antibacterial properties:</strong> Titanium is naturally very low in germs.
+                        </li>
+                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
+                            <strong>Gentle on knives:</strong> The surface is treated to be "glass-like" but not
+                            damaging to blades.
+                        </li>
+                    </ul>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span
+                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">blur_off</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Zero Residue</h4>
+                            <p class="text-xs text-gray-500 mt-1">Nothing sticks, nothing stains.</p>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span
+                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">grain</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">No Microplastics</h4>
+                            <p class="text-xs text-gray-500 mt-1">100% pure solid titanium.</p>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span
+                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">verified_user</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Lifetime Durability</h4>
+                            <p class="text-xs text-gray-500 mt-1">Buy once, use forever.</p>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="dark:border-gray-800">
+                        <h3
+                            class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
+                            Safe, non-toxic, easy to clean – ideal for any kitchen
+                        </h3>
+                        <div
+                            class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-10 shadow-sm text-center">
+                            <p
+                                class="text-xl font-display font-bold text-[var(--primary-color)] dark:text-green-400 mb-2">
+                                100% Pure Titanium</p>
+                            <p class="text-gray-600 dark:text-gray-300 font-sans text-sm uppercase tracking-wide mb-6">
+                                No BPA • No Coatings • No Chemicals</p>
+                            <div
+                                class="flex flex-wrap justify-center items-center gap-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2">Family
+                                    Friendly:</span>
+                                <div class="flex items-center gap-4 text-gray-500 dark:text-gray-400"
+                                    title="Safe for the whole family">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span
+                                            class="material-icons text-2xl text-[var(--accent-gold)]">child_care</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Children</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span
+                                            class="material-icons text-2xl text-[var(--accent-gold)]">pregnant_woman</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Mothers</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">elderly</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Seniors</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">pets</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Pets</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <p
+                                class="text-center font-display font-bold text-lg text-gray-800 dark:text-white mb-6 italic">
+                                "You can cut anything on Yooje..."</p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-green-600 text-2xl">egg</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Baby
+                                        Food</span>
+                                    <span class="text-[10px] text-gray-400">Pure Veg &amp; Fruit</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-red-500 text-2xl">set_meal</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Raw
+                                        Meat</span>
+                                    <span class="text-[10px] text-gray-400">Fish &amp; Poultry</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-yellow-500 text-2xl">bakery_dining</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Bread</span>
+                                    <span class="text-[10px] text-gray-400">Pastry &amp; Cheese</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-purple-500 text-2xl">spa</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Strong
+                                        Odors</span>
+                                    <span class="text-[10px] text-gray-400">Onion &amp; Garlic</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col md:flex-row gap-6 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-6 rounded-lg items-center">
+                            <div class="flex-1">
+                                <h4
+                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
+                                    <span class="material-icons text-xl">science</span>
+                                    Taste Neutral &amp; Acid Resistant
+                                </h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    Unlike copper or poor-quality steel, Titanium is completely inert. It will not react
+                                    with acidic foods like lemons or tomatoes, ensuring your food tastes exactly as it
+                                    should.
+                                </p>
+                            </div>
+                            <div class="w-px h-12 bg-blue-200 dark:bg-blue-800 hidden md:block"></div>
+                            <div class="flex-1">
+                                <h4
+                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
+                                    <span class="material-icons text-xl">auto_awesome</span>
+                                    Cleaning: Zero Scrubbing
+                                </h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    The smooth, non-porous surface is easy to clean with hot water and a little dish
+                                    soap. No vigorous scrubbing required to remove stains or smells.
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
+                            <img alt="Chef James in Kitchen"
+                                class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+                                src="./assets/board used.webp">
+                        </div>
+                        <p
+                            class="text-center font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white mt-10 leading-relaxed">
+                            "No harmful residues... a cutting board used every day with confidence."
+                        </p>
+                    </div>
+
+
+                    <!-- 对比表格 -->
+                    <div
+                        class="my-16 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark">
+                        <div class="bg-[var(--navy-deep)] p-4 text-center">
+                            <h3 class="text-xl md:text-2xl font-display font-bold text-white m-0 tracking-wide">The
+                                Great British Board Debate: Titanium vs. The Rest</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left m-0">
+                                <thead>
+                                    <tr
+                                        class="bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700">
+                                        <th class="py-4 px-6 font-display font-bold text-lg">Feature</th>
+                                        <th
+                                            class="py-4 px-6 text-center font-bold text-primary dark:text-green-400 bg-blue-50/50">
+                                            Titanium</th>
+                                        <th
+                                            class="py-4 px-6 text-center font-semibold text-gray-500 dark:text-gray-400">
+                                            Wood/Bamboo</th>
+                                        <th
+                                            class="py-4 px-6 text-center font-semibold text-gray-500 dark:text-gray-400">
+                                            Plastic</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="py-4 px-6 font-medium text-gray-900 dark:text-white">Bacterial
+                                            Resistance</td>
+                                        <td class="py-4 px-6 text-center bg-blue-50/20">
+                                            <div
+                                                class="flex items-center justify-center text-primary dark:text-green-400 font-bold">
+                                                <span class="material-icons mr-1">check_circle</span> High
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">
+                                            <div
+                                                class="flex items-center justify-center text-yellow-600 dark:text-yellow-500">
+                                                <span class="material-icons text-sm mr-1">warning</span> Low
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">
+                                            <div class="flex items-center justify-center text-red-500">
+                                                <span class="material-icons text-sm mr-1">error_outline</span> Very Low
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="py-4 px-6 font-medium text-gray-900 dark:text-white">Microplastic
+                                            Shedding</td>
+                                        <td class="py-4 px-6 text-center bg-blue-50/20">
+                                            <div
+                                                class="flex items-center justify-center text-primary dark:text-green-400 font-bold">
+                                                <span class="material-icons mr-1">check</span> None
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">
+                                            None (Splinters)
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">
+                                            <div class="flex items-center justify-center text-red-500">
+                                                <span class="material-icons text-sm mr-1">warning</span> High Risk
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="py-4 px-6 font-medium text-gray-900 dark:text-white">Knife Longevity
+                                        </td>
+                                        <td class="py-4 px-6 text-center bg-blue-50/20">
+                                            <div
+                                                class="flex items-center justify-center text-primary dark:text-green-400 font-bold">
+                                                <span class="material-icons mr-1">check</span> Excellent
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">Good</td>
+                                        <td class="py-4 px-6 text-center text-gray-500">Poor</td>
+                                    </tr>
+                                    <tr
+                                        class="bg-gray-50/50 dark:bg-gray-800/30 hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="py-4 px-6 font-medium text-gray-900 dark:text-white">Dishwasher Safe
+                                        </td>
+                                        <td class="py-4 px-6 text-center bg-blue-50/20">
+                                            <div
+                                                class="flex items-center justify-center text-primary dark:text-green-400 font-bold">
+                                                <span class="material-icons mr-1">check_circle</span> Yes
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">
+                                            <div class="flex items-center justify-center text-red-500">
+                                                <span class="material-icons text-sm mr-1">close</span> No
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">Yes (Warps)</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                        <td class="py-4 px-6 font-medium text-gray-900 dark:text-white">Lifespan</td>
+                                        <td class="py-4 px-6 text-center bg-blue-50/20">
+                                            <div
+                                                class="flex items-center justify-center text-primary dark:text-green-400 font-bold">
+                                                <span class="material-icons mr-1">verified</span> Lifetime
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-center text-gray-500">1-3 Years</td>
+                                        <td class="py-4 px-6 text-center text-gray-500">6-12 Months</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <!-- 测试工具 -->
+                    <div class="bg-surface-light border border-gray-200 rounded-3xl p-8 relative overflow-hidden shadow-inner my-16"
+                        id="calculator">
+                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-green-100 rounded-full blur-3xl opacity-50">
+                        </div>
+                        <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-30">
+                        </div>
+
+                        <div class="relative z-10 text-center max-w-2xl mx-auto mb-12">
+                            <!-- <div
+                                class="inline-block bg-white border border-gray-200 px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">
+                                Interactive Lab Tool</div> -->
+                            <span
+                                class="inline-block bg-[var(--accent-gold)] text-yellow-900 text-[10px] font-bold px-3 py-1 rounded-full mb-6 tracking-widest uppercase">Interactive
+                                Lab Tool</span>
+                            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-display mb-4">Hygiene Risk
+                                Calculator</h2>
+                            <p class="text-gray-600 font-body">Calculate the hidden bacterial load, microplastic
+                                ingestion, and breakage risk of your current setup.</p>
+                        </div>
+
+                        <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                            <div class="space-y-8">
+                                <div>
+                                    <label
+                                        class="block text-xs font-bold text-gray-500 mb-3 uppercase tracking-wider flex items-center">
+                                        <span class="material-icons text-sm mr-2">layers</span>1. Select Material
+                                    </label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <button onclick="setCalc('plastic')" id="btn-plastic"
+                                            class="calc-btn active py-4 px-4 rounded-xl bg-white text-gray-600 font-bold flex items-center justify-between border border-gray-200 hover:border-secondary transition-all">
+                                            <span class="text-sm">Plastic (PE)</span>
+                                        </button>
+                                        <button onclick="setCalc('wood')" id="btn-wood"
+                                            class="calc-btn py-4 px-4 rounded-xl bg-white text-gray-600 font-bold flex items-center justify-between border border-gray-200 hover:border-secondary transition-all">
+                                            <span class="text-sm">Wood/Bamboo</span>
+                                        </button>
+                                        <button onclick="setCalc('glass')" id="btn-glass"
+                                            class="calc-btn py-4 px-4 rounded-xl bg-white text-gray-600 font-bold flex items-center justify-between border border-gray-200 hover:border-secondary transition-all">
+                                            <span class="text-sm">Glass/Stone</span>
+                                        </button>
+                                        <button onclick="setCalc('titanium')" id="btn-titanium"
+                                            class="calc-btn py-4 px-4 rounded-xl bg-white text-gray-600 font-bold flex items-center justify-between border border-gray-200 hover:border-secondary transition-all">
+                                            <span class="text-sm">Titanium</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-end mb-3">
+                                        <label
+                                            class="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center">
+                                            <span class="material-icons text-sm mr-2">schedule</span>2. Board Age
+                                        </label>
+                                        <span id="age-display" class="text-xl font-bold text-primary">2 Years</span>
+                                    </div>
+                                    <input type="range" id="age-slider" min="0" max="5" step="0.5" value="2"
+                                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-secondary"
+                                        oninput="updateCalculator()">
+                                    <div
+                                        class="flex justify-between text-[10px] text-gray-400 mt-2 uppercase font-bold">
+                                        <span>New</span><span>2.5 Yrs</span><span>5+ Yrs</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-xs font-bold text-gray-500 mb-3 uppercase tracking-wider flex items-center">
+                                        <span class="material-icons text-sm mr-2">local_fire_department</span>3. Usage
+                                        Intensity
+                                    </label>
+                                    <div class="flex gap-2">
+                                        <button onclick="setUsage(1)" id="use-1"
+                                            class="usage-btn flex-1 py-3 text-xs font-bold rounded-lg border border-gray-200 bg-white text-gray-500 hover:border-gray-400">Light</button>
+                                        <button onclick="setUsage(2)" id="use-2"
+                                            class="usage-btn active flex-1 py-3 text-xs font-bold rounded-lg border border-gray-200 bg-white text-gray-500 hover:border-gray-400">Daily</button>
+                                        <button onclick="setUsage(3)" id="use-3"
+                                            class="usage-btn flex-1 py-3 text-xs font-bold rounded-lg border border-gray-200 bg-white text-gray-500 hover:border-gray-400">Heavy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                                        <span class="text-xs font-bold text-gray-400 uppercase">Analysis Results</span>
+                                        <span id="risk-badge"
+                                            class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse">CRITICAL
+                                            RISK</span>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="flex justify-between text-sm mb-1"><span class="text-gray-600">Est.
+                                                Bacterial Load</span><span id="bacteria-val"
+                                                class="font-bold text-red-600">Biohazard Level</span></div>
+                                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                            <div id="bacteria-bar"
+                                                class="bg-red-500 h-full rounded-full transition-all duration-1000"
+                                                style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="flex justify-between text-sm mb-1"><span
+                                                class="text-gray-600">Microplastic Intake / Year</span><span
+                                                id="plastic-val" class="font-bold text-gray-800">20g (~4 Cards)</span>
+                                        </div>
+                                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                            <div id="plastic-bar"
+                                                class="bg-gray-800 h-full rounded-full transition-all duration-1000"
+                                                style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <div class="flex justify-between text-sm mb-1"><span
+                                                class="text-gray-600">Fragility / Breakage</span><span
+                                                id="fragility-val" class="font-bold text-orange-500">Low</span></div>
+                                        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                                            <div id="fragility-bar"
+                                                class="bg-orange-500 h-full rounded-full transition-all duration-1000"
+                                                style="width: 10%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="rec-box"
+                                    class="bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500">
+                                    <span id="rec-icon" class="material-icons text-red-600 mt-1 text-lg">error</span>
+                                    <div>
+                                        <div id="rec-title" class="font-bold text-red-700 text-sm">Action Required
+                                            Immediately</div>
+                                        <p id="rec-text" class="text-xs text-red-600 mt-1">Your board is actively
+                                            shedding plastic into your food and breeding pathogens in deep scars.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!-- 黑底特点效果 -->
+                    <!-- <section
+                        class="bg-[var(--navy-deep)] text-white rounded-3xl overflow-hidden shadow-2xl relative my-12">
+                        <div class="grid md:grid-cols-2">
+                            <div class="relative h-64 md:h-auto bg-slate-800 img-container">
+                                <img src="https://images.unsplash.com/photo-1520695287272-b7a816006371?auto=format&fit=crop&w=800&q=80"
+                                    alt="Pure Titanium Surface" class="img-cover opacity-90 object-cover h-full w-full">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-[var(--navy-deep)] via-transparent to-transparent">
+                                </div>
+                                <div class="absolute bottom-8 left-8">
+                                    <div class="text-4xl mb-2 font-mono font-bold tracking-tighter">Ti-1067</div>
+                                    <div class="h-1 w-16 bg-primary mb-4 rounded-full"></div>
+                                    <p class="text-slate-300 text-sm max-w-xs">The same alloy used in aerospace. Now in
+                                        your kitchen.</p>
+                                </div>
+                            </div>
+                            <div class="p-8 md:p-12 flex flex-col justify-center">
+                                <div
+                                    class="inline-block bg-primary/50 text-green-300 text-[10px] font-bold px-3 py-1 rounded-full mb-4 self-start border border-green-800">
+                                    THE 2024 SOLUTION</div>
+                                <h2 class="text-3xl font-bold mb-8 font-display text-white">Why Titanium?</h2>
+                                <ul class="space-y-8">
+                                    <li class="flex gap-4 group">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
+                                            1</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-blue-50">Biocompatible & Inert</h4>
+                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">Naturally forms an
+                                                oxide layer that prevents metal leaching. Adds zero taste to your food.
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-4 group">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
+                                            2</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-blue-50">Impossible to Rust</h4>
+                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">Immune to corrosion
+                                                from acidic foods like lemons or tomatoes. Dishwasher safe.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex gap-4 group">
+                                        <div
+                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
+                                            3</div>
+                                        <div>
+                                            <h4 class="font-bold text-lg text-blue-50">Zero Microplastics</h4>
+                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">A solid metal surface
+                                                means no synthetic particles are shaved off into your family's dinner.
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section> -->
+
+
+
+
+                    <!-- Seller Show -->
+                    <section class="my-16 dark:border-gray-800">
+                        <div class="text-center mb-10">
+                            <span
+                                class="inline-block bg-[var(--accent-gold)] text-yellow-900 text-[10px] font-bold px-3 py-1 rounded-full mb-6 tracking-widest uppercase">Seller
+                                Show</span>
+                            <h3 class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-2">
+                                Real Kitchens, Real Results
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-400 font-sans text-sm">Join thousands of UK customers
+                                upgrading their homes.</p>
+                        </div>
+                        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
+                                <img alt="Minimalist London apartment kitchen with Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user1.gif" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--secondary-color)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">Oliver</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                        Bristol</p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
+                                <img alt="Rustic country cottage kitchen with Sunday roast ingredients"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user2.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">Eleanor</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                        Cotswolds</p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
+                                <img alt="Close-up of One Year Later board looking new"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user10.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute top-3 right-3 bg-[var(--primary-color)] text-white text-[10px] font-bold px-2 py-1 rounded shadow-md uppercase tracking-wide">
+                                    1 Year Later</div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--secondary-color)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">James</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                        Manchester</p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
+                                <img alt="Healthy family meal prep scene"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user4.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">The Wilson
+                                        Family</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                        Surrey</p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
+                                <img alt="Modern kitchen with Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user5.jpg.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--secondary-color)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">Sophie</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                        Edinburgh</p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
+                                <img alt="Vegetables on Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user7.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">William</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">York
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
+                                <img alt="Vegetables on Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user6.gif" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">William</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">York
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
+                                <img alt="Vegetables on Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user8.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">William</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">York
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
+                                <img alt="Vegetables on Yooje board"
+                                    class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                    src="./assets/user9.webp" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 border-l-2 border-[var(--accent-gold)] shadow-sm opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                                    <p class="text-xs font-bold text-gray-900 dark:text-white font-sans">William</p>
+                                    <p class="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-wide">York
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="mt-8 text-center">
+                            <button
+                                class="inline-flex items-center gap-2 text-sm font-bold text-[var(--secondary-color)] dark:text-blue-300 hover:text-[var(--primary-color)] transition-colors uppercase tracking-wide">
+                                <span class="material-icons text-base">add_a_photo</span>
+                                Submit Your Photo
+                            </button>
+                        </div> -->
+                    </section>
+
+
+
+                    <!-- 评论区新 -->
+                    <section class="my-16 dark:border-gray-800">
+                        <div class="flex items-center justify-between mb-10">
+                            <div>
+                                <h2 class="text-3xl font-display font-bold text-gray-900 dark:text-white">Community
+                                    Discussion</h2>
+                                <p class="text-sm font-sans text-gray-500 mt-1 uppercase tracking-widest">Verified
+                                    Members
+                                    &amp; Enthusiasts</p>
+                            </div>
+                            <a class="bg-secondary hover:bg-blue-800 text-white text-sm font-bold px-6 py-3 rounded shadow transition-all flex items-center gap-2"
+                                href="#comment-modal">
+                                <span class="material-icons text-sm">add_comment</span> Add Comment
+                            </a>
+                        </div>
+                        <div class="space-y-8">
+                            <div
+                                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+                                <div class="flex gap-4">
+                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/comment6.webp" />
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <span class="font-bold text-gray-900 dark:text-white font-display">Sarah
+                                                Jenkins</span>
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center uppercase tracking-tighter">
+                                                <span class="material-icons text-[12px] mr-0.5">verified</span> Verified
+                                                Buyer
+                                            </span>
+                                            <span class="text-xs text-gray-400 font-sans">• London</span>
+                                            <span class="text-xs text-gray-400 font-sans">• 2 days ago</span>
+                                        </div>
+                                        <div class="flex text-yellow-400 mb-2">
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                        </div>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 font-body mb-4">Worried if
+                                            this metal
+                                            surface will dull my knives. Any long-term users?</p>
+                                        <div class="flex items-center gap-6">
+                                            <button
+                                                class="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-secondary transition-colors">
+                                                <span class="material-icons text-sm">thumb_up</span> 14
+                                            </button>
+                                        </div>
+                                        <div
+                                            class="mt-6 ml-4 pl-4 border-l-2 border-gray-100 dark:border-gray-700 space-y-6">
+                                            <div
+                                                class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment2.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">James
+                                                            Wilson</span>
+                                                        <span class="text-[10px] text-gray-400">Manchester • 1 day
+                                                            ago</span>
+                                                    </div>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Not at all!</p>
+                                                    <button
+                                                        class="mt-1 flex items-center gap-1.5 text-[10px] font-bold text-gray-400">
+                                                        <span class="material-icons text-xs">thumb_up</span> 8
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment7.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">Chef
+                                                            David R.</span>
+                                                        <span class="text-[10px] text-gray-400">Birmingham • 1 day
+                                                            ago</span>
+                                                    </div>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">I was skeptical
+                                                        too,
+                                                        but after using it daily, it works exactly as described. Doesn't
+                                                        affect blade sharpness.</p>
+                                                    <button
+                                                        class="mt-1 flex items-center gap-1.5 text-[10px] font-bold text-gray-400">
+                                                        <span class="material-icons text-xs">thumb_up</span> 21
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex gap-3 bg-green-50 dark:bg-green-500/10 p-3 rounded border border-green-100 dark:border-green-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment6.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">Sarah
+                                                            Jenkins (OP)</span>
+                                                        <span class="text-[10px] text-gray-400">12 hours ago</span>
+                                                    </div>
+                                                    <p class="text-sm">Good to
+                                                        know.
+                                                        Just placed my order!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+                                <div class="flex gap-4">
+                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/comment8.webp" />
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <span class="font-bold text-gray-900 dark:text-white font-display">Dr.
+                                                Elizabeth
+                                                R.</span>
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center uppercase tracking-tighter">
+                                                <span class="material-icons text-[12px] mr-0.5">verified</span> Verified
+                                                Buyer
+                                            </span>
+                                            <span class="text-xs text-gray-400 font-sans">• Edinburgh</span>
+                                            <span class="text-xs text-gray-400 font-sans">• 3 days ago</span>
+                                        </div>
+                                        <div class="flex text-yellow-400 mb-2">
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                        </div>
+                                        <p class="text-gray-700 dark:text-gray-300 font-body mb-4">Best kitchen upgrade
+                                            I've
+                                            made. So easy to clean!</p>
+                                        <div class="flex items-center gap-6">
+                                            <button
+                                                class="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-secondary transition-colors">
+                                                <span class="material-icons text-sm">thumb_up</span> 42
+                                            </button>
+                                        </div>
+                                        <div
+                                            class="mt-6 ml-4 pl-4 border-l-2 border-gray-100 dark:border-gray-700 space-y-6">
+                                            <div
+                                                class="flex gap-3 bg-red-50 dark:bg-red-600/10 p-3 rounded border border-red-100 dark:border-red-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment3.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">Marcus
+                                                            T.</span>
+                                                        <span class="text-[10px] text-gray-400">Leeds • 2 days
+                                                            ago</span>
+                                                    </div>
+                                                    <p class="text-sm">Is the
+                                                        microplastic
+                                                        thing even real? Sounds like marketing.</p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment5.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">Linda
+                                                            G.</span>
+                                                        <span class="text-[10px] text-gray-400">Glasgow • 1 day
+                                                            ago</span>
+                                                    </div>
+                                                    <p class="text-sm text-gray-600 dark:text-gray-400">Unfortunately
+                                                        yes. I
+                                                        switched after seeing the surface erosion on my old plastic
+                                                        board.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="flex gap-3 bg-green-50 dark:bg-green-600/10 p-3 rounded border border-green-100 dark:border-green-900/30">
+                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/comment3.webp" />
+                                                <div>
+                                                    <div class="flex items-center gap-2 mb-0.5">
+                                                        <span
+                                                            class="font-bold text-sm text-gray-900 dark:text-white">Marcus
+                                                            T.</span>
+                                                        <span class="text-[10px] text-gray-400">2 hours ago</span>
+                                                    </div>
+                                                    <p class="text-sm">
+                                                        Actually, I went back and scraped my old plastic board... I
+                                                        could
+                                                        see the micro-shavings coming off. The page is shockingly true.
+                                                        Buying Yooje now.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+                                <div class="flex gap-4">
+                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/comment4.webp" />
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <span class="font-bold text-gray-900 dark:text-white font-display">Brian
+                                                M.</span>
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center uppercase tracking-tighter">
+                                                <span class="material-icons text-[12px] mr-0.5">verified</span> Verified
+                                                Buyer
+                                            </span>
+                                            <span class="text-xs text-gray-400 font-sans">• Bristol • 4 days ago</span>
+                                        </div>
+                                        <div class="flex text-yellow-400 mb-2">
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                        </div>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 font-body mb-4">Fast delivery
+                                            to
+                                            Bristol.
+                                            The board feels like a premium piece of tech, not just kitchenware. Highly
+                                            recommend.</p>
+                                        <div class="flex items-center gap-6">
+                                            <button
+                                                class="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-secondary transition-colors">
+                                                <span class="material-icons text-sm">thumb_up</span> 11
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+                                <div class="flex gap-4">
+                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/comment1.webp" />
+                                    <div class="flex-1">
+                                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                                            <span class="font-bold text-gray-900 dark:text-white font-display">Heather
+                                                L.</span>
+                                            <span
+                                                class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center uppercase tracking-tighter">
+                                                <span class="material-icons text-[12px] mr-0.5">verified</span> Verified
+                                                Buyer
+                                            </span>
+                                            <span class="text-xs text-gray-400 font-sans">• Manchester • 5 days
+                                                ago</span>
+                                        </div>
+                                        <div class="flex text-yellow-400 mb-2">
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                            <span class="material-icons text-xs">star</span>
+                                        </div>
+                                        <p class="text-sm text-gray-700 dark:text-gray-300 font-body mb-4">No more onion
+                                            smells
+                                            sticking to the board! It really is as good as they say.</p>
+                                        <div class="flex items-center gap-6">
+                                            <button
+                                                class="flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-secondary transition-colors">
+                                                <span class="material-icons text-sm">thumb_up</span> 19
+                                            </button>
+                                            <!-- <a class="text-xs font-bold text-secondary hover:underline"
+                                                href="#comment-modal">Reply</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-12 text-center">
+                            <a class="inline-block border-2 border-secondary text-secondary font-bold px-8 py-3 rounded-md hover:bg-secondary hover:text-white transition-all uppercase tracking-widest text-xs"
+                                href="#comment-modal">
+                                View All 1,844 Reviews
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- 评论区老 -->
+                    <!-- <section class="max-w-4xl mx-auto py-10">
+                        <h2 class="text-center text-2xl font-bold text-gray-900 mb-8 font-display">Community Discussion
+                        </h2>
+
+                        <div class="space-y-6">
+                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
+                                            SC</div>
+                                        <div>
+                                            <div class="text-xs font-bold text-gray-900">Sophie_CleanEats</div>
+                                            <div class="text-[10px] text-gray-400">Manchester • Verified Purchase • 1
+                                                day ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-2">
+                                    <span class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span>
+                                </div>
+                                <p class="text-gray-700 text-sm">"Finally a board that doesn't stain! I made a heavy
+                                    turmeric curry and beetroot salad yesterday. Usually my plastic board turns yellow
+                                    instantly. This rinsed off to brand new in seconds. So satisfying."</p>
+                                <div class="mt-3 flex items-center gap-4 text-gray-400 text-xs">
+                                    <span
+                                        class="like-btn flex items-center gap-1 hover:text-primary cursor-pointer"><span
+                                            class="material-icons text-sm">thumb_up</span> 28</span>
+                                    <span class="cursor-pointer hover:text-primary">Reply</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
+                                            MK</div>
+                                        <div>
+                                            <div class="text-xs font-bold text-gray-900">Michael K.</div>
+                                            <div class="text-[10px] text-gray-400">London • Verified Purchase • 3 days
+                                                ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-2">
+                                    <span class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span>
+                                </div>
+                                <p class="text-gray-700 text-sm">"Absolutely game-changing for prep work. The defrosting
+                                    speed is real - my steaks thaw in half the time. And it looks sleek on the counter."
+                                </p>
+                                <div class="mt-3 flex items-center gap-4 text-gray-400 text-xs">
+                                    <span
+                                        class="like-btn flex items-center gap-1 hover:text-primary cursor-pointer"><span
+                                            class="material-icons text-sm">thumb_up</span> 142</span>
+                                    <span class="cursor-pointer hover:text-primary">Reply</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-3">
+                                    <span class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span><span
+                                        class="material-icons text-sm">star</span>
+                                    <span class="text-gray-400 ml-2 text-[10px]">Verified Purchase • 7 days ago</span>
+                                </div>
+                                <p class="text-gray-700 italic text-sm mb-4">"I bought the 2-pack bundle. One for raw
+                                    meats, one for veggies. It feels so much cleaner than my old scratched up plastic
+                                    boards."</p>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
+                                        EM</div>
+                                    <div class="text-xs font-bold text-gray-900">Emily M., Leeds</div>
+                                </div>
+
+                                <div class="pl-4 md:pl-8 border-l-2 border-gray-100 space-y-4">
+                                    <div class="bg-red-50 p-3 rounded-lg border border-red-100">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-xs font-bold text-red-700">Skeptic_Chef_88</span>
+                                            <span class="text-[10px] text-red-400">7 days ago</span>
+                                        </div>
+                                        <p class="text-xs text-red-800">Honestly this sounds like fear-mongering to sell
+                                            expensive metal. I've used plastic boards for 10 years and I'm fine.</p>
+                                    </div>
+                                    <div class="bg-green-50 p-3 rounded-lg border border-green-100">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <span class="text-xs font-bold text-green-700">Skeptic_Chef_88</span>
+                                            <span class="text-[10px] text-green-500">1 day ago</span>
+                                        </div>
+                                        <p class="text-xs text-green-800 font-medium">
+                                            <span class="material-icons text-xs align-middle">check_circle</span>
+                                            Update: Okay, I stand corrected. I just chopped an onion on my plastic board
+                                            and looked closely. Tiny shavings mixed in. Just ordered the bundle.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+
+
+
+
+
+                    <section id="offer-section" class="bg-white border-gray-200 pt-10 pb-4">
+                        <div
+                            class="bg-gradient-to-b from-[#1e3a8a] to-[#0f172a] rounded-2xl shadow-2xl overflow-hidden text-white p-1 relative">
+                            <div class="absolute inset-0 opacity-10"
+                                style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px;">
+                            </div>
+                            <div class="relative bg-white/5 backdrop-blur-sm p-8 md:p-12 text-center">
+                                <span
+                                    class="inline-block bg-[var(--accent-gold)] text-yellow-900 text-[10px] font-bold px-3 py-1 rounded-full mb-6 tracking-widest uppercase">Official
+                                    UK Launch</span>
+                                <h2 class="text-3xl md:text-5xl text-white font-bold mb-4 font-display">Upgrade To
+                                    Titanium</h2>
+                                <p class="text-blue-100 mb-10 max-w-lg mx-auto text-sm md:text-base">Eliminate
+                                    microplastics and bacteria from your kitchen today. Backed by our 30-Year
+                                    "Life-Proof" Warranty.</p>
+
+                                <div class="flex flex-col md:flex-row justify-center gap-6 mb-10">
+
+                                    <div
+                                        class="bg-white text-gray-900 p-6 rounded-xl w-full md:w-72 border-4 border-transparent hover:border-secondary cursor-pointer transition shadow-xl flex flex-col justify-between">
+                                        <div>
+                                            <div class="text-lg font-bold text-gray-700">Starter Pack</div>
+                                            <div class="text-xs text-gray-400 mb-4">Essential Hygiene Upgrade</div>
+                                            <img alt="Product Shot"
+                                                class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
+                                                src="./assets/Check.webp">
+                                        </div>
+                                        <div class="mt-4 pt-4 border-t border-gray-100">
+                                            <ul class="text-xs text-left space-y-2 mb-4 text-gray-600">
+                                                <li class="flex items-center"><span
+                                                        class="material-icons text-green-500 text-sm mr-2">check</span>
+                                                    1x Ti-1067 Board</li>
+                                                <li class="flex items-center"><span
+                                                        class="material-icons text-green-500 text-sm mr-2">check</span>
+                                                    30-Year Warranty</li>
+                                            </ul>
+                                            <button
+                                                class="w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition">Select
+                                                Single</button>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="bg-gray-800 border border-gray-600 text-white p-6 rounded-xl w-full md:w-80 hover:bg-gray-750 cursor-pointer transition transform hover:-translate-y-2 shadow-2xl relative flex flex-col justify-between">
+                                        <div
+                                            class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white text-[10px] font-bold px-4 py-1 rounded-full shadow-lg tracking-wider">
+                                            MOST POPULAR</div>
+                                        <div>
+                                            <div class="text-xl font-bold text-white mt-2">Hygiene Bundle (2-Pack)</div>
+                                            <div
+                                                class="text-xs text-blue-300 mb-4 font-bold p-2 bg-blue-900/50 rounded mt-1 border border-blue-800 flex items-start">
+                                                <span class="material-icons text-xs mr-1">info</span> Expert Tip: Use
+                                                separate boards for Raw Meat & Veggies
+                                            </div>
+                                            <img alt="Product Shot"
+                                                class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
+                                                src="./assets/Check.webp">
+                                        </div>
+                                        <div class="mt-6 pt-4 border-t border-gray-600">
+                                            <ul class="text-xs text-left space-y-2 mb-6 text-slate-300">
+                                                <li class="flex items-center"><span
+                                                        class="material-icons text-[var(--accent-gold)] text-sm mr-2">check</span>
+                                                    <strong>2x</strong> Ti-1067 Boards
+                                                </li>
+                                                <li class="flex items-center"><span
+                                                        class="material-icons text-[var(--accent-gold)] text-sm mr-2">check</span>
+                                                    Prevent Cross-Contamination</li>
+                                                <li class="flex items-center"><span
+                                                        class="material-icons text-[var(--accent-gold)] text-sm mr-2">check</span>
+                                                    Free Priority Shipping</li>
+                                            </ul>
+                                            <button
+                                                class="w-full bg-[var(--accent-gold)] text-yellow-900 font-bold py-3 rounded-lg hover:bg-yellow-500 hover:shadow-lg transition">
+                                                GET 50% OFF NOW</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    class="mt-6 flex justify-center gap-6 text-[10px] md:text-xs text-slate-400 opacity-80">
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-icons text-xs">lock</span> SSL Secure</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-icons text-xs">undo</span> 30-Day Returns</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-icons text-xs">local_shipping</span> Free Shipping</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+
+
+
+            </article>
+            <aside class="lg:col-span-4 space-y-8">
+                <div class="sticky top-6">
+                    <div
+                        class="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div class="bg-[var(--navy-deep)] py-3 text-center">
+                            <h3 class="text-white font-display font-bold text-lg">The "Yooje" Board</h3>
+                        </div>
+                        <div class="p-6 text-center">
+                            <img alt="Product Shot"
+                                class="w-56 mx-auto mb-4 rounded shadow-sm border border-gray-100 dark:border-gray-600 bg-white"
+                                src="./assets/Check.webp" />
+                            <div class="flex justify-center items-center text-yellow-400 mb-2">
+                                <span class="material-icons text-sm">star</span>
+                                <span class="material-icons text-sm">star</span>
+                                <span class="material-icons text-sm">star</span>
+                                <span class="material-icons text-sm">star</span>
+                                <span class="material-icons text-sm">star</span>
+                                <span class="text-gray-500 dark:text-gray-400 text-xs ml-2">(1,844 reviews)</span>
+                            </div>
+                            <ul class="text-left text-sm space-y-2 mb-6 text-gray-700 dark:text-gray-300">
+                                <li class="flex items-center"><span
+                                        class="material-icons text-green-500 text-base mr-2">check</span> 100% Bacteria
+                                    Free</li>
+                                <li class="flex items-center"><span
+                                        class="material-icons text-green-500 text-base mr-2">check</span> 100% Odorless
+                                </li>
+                                <li class="flex items-center"><span
+                                        class="material-icons text-green-500 text-base mr-2">check</span> 100% Pure
+                                    Titanium</li>
+                                <li class="flex items-center"><span
+                                        class="material-icons text-green-500 text-base mr-2">check</span> Lifetime
+                                    Service</li>
+                            </ul>
+                            <!-- bg-primary -->
+                            <a class="block w-full bg-secondary hover:bg-blue-800 text-white font-bold py-3 px-4 rounded shadow transition-colors"
+                                href="#offer-section">
+                                Check Availability
+                            </a>
+                        </div>
+                    </div>
+                    <div
+                        class="mt-8 bg-surface-light dark:bg-surface-dark p-6 rounded-lg border-l-4 border-secondary shadow-sm">
+                        <h4 class="font-display font-bold text-lg text-gray-900 dark:text-white mb-2">Editor's Note</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Since publishing this article, we've received hundreds of emails from readers asking about
+                            availability. Yooje has restocked a limited batch for UK customers this morning.
+                        </p>
+                        <div class="flex items-center space-x-2">
+                            <span class="flex h-2 w-2 relative">
+                                <span
+                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                            </span>
+                            <span class="text-xs font-bold text-green-600 dark:text-green-400 uppercase">Stock Status:
+                                Low</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <section class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-700 py-16 lg:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="flex flex-col items-center text-center p-4">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-md mb-6 border border-gray-100 dark:border-gray-600">
+                        <span class="material-icons text-3xl text-[#D4AF37]">local_shipping</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-secondary dark:text-blue-200 mb-3">Free Next-Day UK
+                        Delivery</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
+                        Dispatched daily via Royal Mail Tracked 48 to ensure your kitchen upgrade arrives promptly and
+                        safely.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center text-center p-4">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-md mb-6 border border-gray-100 dark:border-gray-600">
+                        <span class="material-icons text-3xl text-[#D4AF37]">replay</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-secondary dark:text-blue-200 mb-3">30-Day Risk-Free
+                        Trial</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
+                        Try Yooje™ in your own home. If you don't absolutely love it, simply return it for a full
+                        refund.
+                    </p>
+                </div>
+                <div class="flex flex-col items-center text-center p-4">
+                    <div
+                        class="w-16 h-16 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 shadow-md mb-6 border border-gray-100 dark:border-gray-600">
+                        <span class="material-icons text-3xl text-[#D4AF37]">verified_user</span>
+                    </div>
+                    <h3 class="text-xl font-display font-bold text-secondary dark:text-blue-200 mb-3">Lifetime Quality
+                        Guarantee</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-xs">
+                        Engineered to last a lifetime. Includes our comprehensive Titanium protection promise & SGS
+                        certification.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-0 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-500 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
+                Advertising Disclosure: This website and the products and services referred to on the website are
+                advertising marketplaces. This website is an advertisement and not a news publication. All photos of
+                people used on this website are models. The owner of this website and the products and services referred
+                to on this website merely provides a service that allows consumers to obtain information and compare
+                products. This website is not intended to provide medical advice or to take the place of medical advice
+                and treatment from your personal physician.
+            </p>
+            <div
+                class="flex justify-center space-x-6 text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">
+                <a class="hover:underline" href="#">Privacy Policy</a>
+                <a class="hover:underline" href="#">Terms of Use</a>
+                <a class="hover:underline" href="#">Contact Us</a>
+                <a class="hover:underline" href="#">Imprint</a>
+            </div>
+            <p class="text-xs text-gray-400 dark:text-gray-600 mt-8">
+                © 2023 Yooje UK. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+    <div class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
+        id="comment-modal">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full border-2 border-[var(--accent-gold)] overflow-hidden">
+            <div class="bg-secondary p-4 flex justify-between items-center">
+                <h3 class="text-white font-display font-bold">Community Access</h3>
+                <a class="text-white/70 hover:text-white" href="#"><span class="material-icons">close</span></a>
+            </div>
+            <div class="p-8 text-center">
+                <div
+                    class="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-secondary text-3xl">verified_user</span>
+                </div>
+                <p class="text-gray-900 dark:text-white font-display font-bold text-lg mb-4">Verification Required</p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">Only verified members who have purchased can
+                    post. Order yours now to join the discussion!</p>
+                <a class="block w-full bg-primary hover:bg-green-800 text-white font-bold py-3 px-4 rounded shadow transition-colors"
+                    href="#recommended-bundle">
+                    Order Yooje Now »
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
