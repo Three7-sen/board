@@ -7,296 +7,14 @@
     <title>Editorial: Why UK Kitchens are Swapping Plastic for Titanium</title>
     <meta content="Review of the Yooje Titanium Cutting Board." name="description" />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link href="./assets/css/style.css" rel="stylesheet">
+    <link rel="preload" as="image" href="./assets/images/h.webp">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600;700&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-
-    <style type="text/tailwindcss">
-        @layer base {
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-    }
-    :root {
-        /* --- 原 code2 变量 --- */
-        --primary-color: #1B4D3E;
-        --secondary-color: #1e3a8a;
-        --accent-gold: #D4AF37;
-        --slate-charcoal: #121212;
-        
-        /* --- 从 code1 移植的变量 (用于弹出窗口) --- */
-        --accent-red: #dc2626;
-        --navy-deep: #0a1930;
-    }
-
-    /* --- 移植的弹出窗口显示控制 --- */
-    #exit-intent-popup {
-        display: none;
-    }
-    #exit-intent-popup.active {
-        display: flex;
-    }
-
-    /* --- 新增：用于移植版块的样式微调 --- */
-    .calc-btn.active {
-        /* background-color: #f0fdf4; green-50 equivalent */
-        border-color: var(--secondary-color);
-        color: var(--secondary-color);
-        box-shadow: 0 0 0 1px var(--secondary-color);
-    }
-    .usage-btn.active {
-        background-color: var(--secondary-color);
-        color: white;
-        border-color: var(--secondary-color);
-    }
-    .gallery-overlay {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        padding: 1rem;
-    }
-    .img-cover {
-        width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease;
-    }
-    .gallery-item:hover .img-cover {
-        transform: scale(1.05);
-    }
-    #comment-modal:target {
+    <style type="text">
+        #comment-modal:target {
             display: flex;
         }
-</style>
-
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#1B4D3E", // British Racing Green
-                        secondary: "#1e3a8a", // Navy Blue
-                        "accent-gold": "#D4AF37",
-                        "background-light": "#ffffff",
-                        "background-dark": "#0f172a", // Slate 900
-                        "surface-light": "#f8fafc",
-                        "surface-dark": "#1e293b", // Slate 800
-                    },
-                    fontFamily: {
-                        display: ["Playfair Display", "serif"],
-                        body: ["Lora", "serif"],
-                        sans: ["Inter", "sans-serif"],
-                    },
-                    borderRadius: {
-                        DEFAULT: "4px",
-                    },
-                },
-            },
-        };
-
-        /* ============================================================
-           1. 移植部分：弹出窗口逻辑 
-           ============================================================ */
-        let timerStarted = false;
-        let timeLeft = 600;
-        function startTimer() {
-            if (timerStarted) return;
-            timerStarted = true;
-            const display = document.getElementById('countdown-timer');
-            const interval = setInterval(() => {
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-                display.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                if (timeLeft <= 0) clearInterval(interval);
-                timeLeft--;
-            }, 1000);
-        }
-        document.addEventListener('mouseleave', (e) => {
-            // if (e.clientY < 0) {
-            //     const popup = document.getElementById('exit-intent-popup');
-            //     if (!popup.classList.contains('active')) {
-            //         popup.classList.add('active');
-            //         startTimer();
-            //     }
-            // }
-        });
-        function closePopup() {
-            document.getElementById('exit-intent-popup').classList.remove('active');
-        }
-
-        /* ============================================================
-           2. 移植部分：计算器与交互逻辑 (来自 6.html)
-           已调整为适配 code2 的 Material Icons 和颜色变量
-           ============================================================ */
-        let calcState = { material: 'plastic', age: 2, usage: 2 };
-
-        function setCalc(mat) {
-            calcState.material = mat;
-            document.querySelectorAll('.calc-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${mat}`).classList.add('active');
-            updateCalculator();
-        }
-
-        function setUsage(level) {
-            calcState.usage = level;
-            document.querySelectorAll('.usage-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.classList.add('bg-white', 'text-gray-500'); // 重置样式
-            });
-            const activeBtn = document.getElementById(`use-${level}`);
-            activeBtn.classList.add('active');
-            activeBtn.classList.remove('bg-white', 'text-gray-500');
-            updateCalculator();
-        }
-
-        function updateCalculator() {
-            calcState.age = parseFloat(document.getElementById('age-slider').value);
-            const ageText = calcState.age === 0 ? "Brand New" : calcState.age + (calcState.age === 5 ? "+ Years" : " Years");
-            document.getElementById('age-display').innerText = ageText;
-
-            const bacteriaVal = document.getElementById('bacteria-val');
-            const bacteriaBar = document.getElementById('bacteria-bar');
-            const plasticVal = document.getElementById('plastic-val');
-            const plasticBar = document.getElementById('plastic-bar');
-            const fragilityVal = document.getElementById('fragility-val');
-            const fragilityBar = document.getElementById('fragility-bar');
-            const riskBadge = document.getElementById('risk-badge');
-
-            const recBox = document.getElementById('rec-box');
-            const recIcon = document.getElementById('rec-icon'); // Material Icon element
-            const recTitle = document.getElementById('rec-title');
-            const recText = document.getElementById('rec-text');
-
-            const usageMult = calcState.usage === 1 ? 0.7 : (calcState.usage === 3 ? 1.5 : 1.0);
-
-            // 逻辑判断 
-            if (calcState.material === 'titanium') {
-                riskBadge.innerText = "SAFE";
-                riskBadge.className = "bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold";
-
-                bacteriaVal.innerText = "< 10 (Sterile)"; bacteriaVal.className = "font-bold text-primary";
-                bacteriaBar.style.width = "1%"; bacteriaBar.className = "h-full bg-primary transition-all duration-1000";
-
-                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
-
-                fragilityVal.innerText = "Unbreakable"; fragilityVal.className = "font-bold text-primary";
-                fragilityBar.style.width = "0%"; fragilityBar.className = "h-full bg-primary transition-all duration-1000";
-
-                recBox.className = "bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
-                recIcon.innerText = "check_circle"; recIcon.className = "material-icons text-primary mt-1 text-lg";
-                recTitle.innerText = "Excellent Choice"; recText.innerText = "Titanium is non-porous and naturally anti-bacterial.";
-            }
-            else if (calcState.material === 'glass') {
-                riskBadge.innerText = "HIGH RISK";
-                riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
-
-                bacteriaVal.innerText = "Moderate-High (Biofilm)"; bacteriaVal.className = "font-bold text-orange-600";
-                bacteriaBar.style.width = "65%"; bacteriaBar.className = "h-full bg-orange-500 transition-all duration-1000";
-
-                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
-
-                fragilityVal.innerText = "Critical (Explosive Shatter)"; fragilityVal.className = "font-bold text-red-600";
-                fragilityBar.style.width = "100%"; fragilityBar.className = "h-full bg-red-600 transition-all duration-1000";
-
-                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
-                recIcon.innerText = "warning"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
-                recTitle.innerText = "Safety Hazard Detected"; recText.innerText = "Glass surfaces pose severe shattering risks and ruin knife edges.";
-            }
-            else if (calcState.material === 'plastic') {
-                const plasticGrams = calcState.age === 0 ? 0.5 : (calcState.age * 5 * usageMult).toFixed(1);
-                const cards = (plasticGrams / 5).toFixed(1);
-
-                plasticVal.innerText = `${plasticGrams}g (~${Math.max(0.1, cards)} Credit Cards)`;
-                plasticBar.style.width = Math.min(100, (plasticGrams / 25) * 100) + "%";
-
-                fragilityVal.innerText = "Low"; fragilityVal.className = "font-bold text-gray-500";
-                fragilityBar.style.width = "10%"; fragilityBar.className = "h-full bg-gray-300 transition-all duration-1000";
-
-                let bacLevel = calcState.age > 1 ? "Biohazard Level" : "Moderate";
-                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-red-600";
-                bacteriaBar.style.width = calcState.age > 1 ? "95%" : "50%"; bacteriaBar.className = "h-full bg-red-600 transition-all duration-1000";
-
-                riskBadge.innerText = "CRITICAL RISK"; riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
-
-                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
-                recIcon.innerText = "dangerous"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
-                recTitle.innerText = "Action Required Immediately"; recText.innerText = "Active shedding of microplastics and deep pathogen breeding grounds.";
-            }
-            else { // WOOD
-                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
-
-                fragilityVal.innerText = "Low (Splinters)"; fragilityVal.className = "font-bold text-orange-400";
-                fragilityBar.style.width = "20%"; fragilityBar.className = "h-full bg-orange-400 transition-all duration-1000";
-
-                let bacLevel = calcState.age > 1 ? "High Risk (Deep Pores)" : "Moderate";
-                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-orange-600";
-                bacteriaBar.style.width = calcState.age > 1 ? "85%" : "50%"; bacteriaBar.className = "h-full bg-orange-600 transition-all duration-1000";
-
-                riskBadge.innerText = "HIGH RISK"; riskBadge.className = "bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold";
-
-                recBox.className = "bg-orange-50 border border-orange-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
-                recIcon.innerText = "info"; recIcon.className = "material-icons text-orange-600 mt-1 text-lg";
-                recTitle.innerText = "Difficult to Sanitize"; recText.innerText = "Wood is extremely porous. Meat juices seep deep into the grain where sponges cannot reach.";
-            }
-        }
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            setCalc('plastic');
-
-            // --- 初始化 Chart.js 图表 (保留 6.html 的图表) ---
-            Chart.defaults.font.family = "'Inter', sans-serif";
-            Chart.defaults.color = '#64748b';
-
-            // 1. Radar Chart
-            const ctxRadar = document.getElementById('radarChart');
-            if (ctxRadar) {
-                new Chart(ctxRadar.getContext('2d'), {
-                    type: 'radar',
-                    data: {
-                        labels: ['Hygiene', 'Knife Friendly', 'Durability', 'Ease of Clean', 'Eco-Friendly'],
-                        datasets: [
-                            { label: 'Titanium (Ti-1067)', data: [10, 9, 10, 10, 10], borderColor: '#1B4D3E', backgroundColor: 'rgba(27, 77, 62, 0.2)', borderWidth: 2 },
-                            { label: 'Plastic', data: [3, 7, 4, 6, 2], borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderWidth: 1 },
-                            { label: 'Wood', data: [6, 10, 6, 4, 8], borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', borderWidth: 1 }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: '#e2e8f0' }, grid: { color: '#e2e8f0' }, pointLabels: { font: { size: 11, weight: 'bold' }, color: '#475569' }, suggestedMin: 0, suggestedMax: 10 } }, plugins: { legend: { position: 'bottom' } } }
-                });
-            }
-
-            // 2. Bar Chart (Bacteria)
-            const ctxBacteria = document.getElementById('bacteriaChart');
-            if (ctxBacteria) {
-                new Chart(ctxBacteria, {
-                    type: 'bar',
-                    data: { labels: ['Titanium', 'Glass', 'Hard Wood', 'Plastic'], datasets: [{ label: 'CFU Count', data: [12, 80, 420, 1150], backgroundColor: ['#1B4D3E', '#94a3b8', '#f59e0b', '#ef4444'], borderRadius: 6 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, title: { display: true, text: 'Bacteria Load' } }, x: { grid: { display: false } } } }
-                });
-            }
-
-            // 3. Scatter Plot (Hardness)
-            const ctxHardness = document.getElementById('hardnessChart');
-            if (ctxHardness) {
-                new Chart(ctxHardness, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [
-                            { label: 'Titanium (Ideal)', data: [{ x: 8.5, y: 9 }], backgroundColor: '#1B4D3E', pointRadius: 10 },
-                            { label: 'Plastic (Toxic)', data: [{ x: 3, y: 5 }], backgroundColor: '#ef4444', pointRadius: 8 },
-                            { label: 'Glass (Unsafe)', data: [{ x: 10, y: 2 }], backgroundColor: '#94a3b8', pointRadius: 8 },
-                            { label: 'Wood (Porous)', data: [{ x: 6, y: 7 }], backgroundColor: '#f59e0b', pointRadius: 8 }
-                        ]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { x: { title: { display: true, text: 'Hygiene' }, min: 0, max: 11, grid: { display: false } }, y: { title: { display: true, text: 'Knife Safety' }, min: 0, max: 11, grid: { display: false } } }, plugins: { legend: { position: 'bottom' } } }
-                });
-            }
-        });
-    </script>
+    </style>
 </head>
 
 <body
@@ -309,7 +27,7 @@
             <div
                 class="bg-[var(--navy-deep)] py-4 px-6 flex justify-between items-center border-b border-[var(--accent-gold)]/30">
                 <div class="flex items-center gap-3 text-[var(--accent-gold)]">
-                    <span class="material-symbols-outlined text-2xl animate-pulse">lock_clock</span>
+                    <span class="material-icons text-2xl animate-pulse">lock_clock</span>
                     <span class="font-sans font-bold text-xs tracking-[0.3em] uppercase">Locked Offer: Limited
                         Opportunity</span>
                 </div>
@@ -334,9 +52,9 @@
                             class="bg-[var(--accent-gold)] text-[var(--navy-deep)] font-bold px-4 py-2 rounded shadow-lg text-sm uppercase tracking-widest">50%
                             OFF</span>
                     </div>
-                    <img alt="Product Bundle"
+                    <img loading="lazy" alt="Product Bundle"
                         class="w-36 h-36 object-contain rounded-xl bg-white p-3 border border-gray-100 shadow-sm"
-                        src="./assets/Check.png" />
+                        src="./assets/images/Check.webp" />
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
                             <span
@@ -414,7 +132,8 @@
                     </p>
                     <div
                         class="flex items-center mt-6 space-x-4 border-t border-b border-gray-200 dark:border-gray-700 py-4">
-                        <img alt="Author" class="w-12 h-12 rounded-full object-cover" src="./assets/author.webp" />
+                        <img loading="lazy" alt="Author" class="w-12 h-12 rounded-full object-cover"
+                            src="./assets/images/author.webp" />
                         <div class="text-sm">
                             <p class="font-bold text-gray-900 dark:text-white">By Thomas Wright</p>
                             <p class="text-gray-500 dark:text-gray-400">Published Today • 5 min read</p>
@@ -431,7 +150,7 @@
                                 class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500 z-10 flex flex-col justify-center items-center text-center px-6">
                                 <!-- <div class="mb-8 transform group-hover:scale-110 transition-transform duration-500">
                                     <span
-                                        class="material-symbols-outlined text-white text-7xl md:text-8xl opacity-90 drop-shadow-lg">play_circle</span>
+                                        class="material-icons text-white text-7xl md:text-8xl opacity-90 drop-shadow-lg">play_circle</span>
                                 </div> -->
                                 <h2
                                     class="text-2xl md:text-4xl font-display italic text-white leading-tight max-w-2xl drop-shadow-md">
@@ -439,7 +158,9 @@
                                 </h2>
                             </div>
                             <img alt="Chef Julian slicing ingredients on Yooje board"
-                                class="w-full h-[500px] object-cover opacity-80 brightness-75" src="./assets/h.webp" />
+                                class="w-full h-[500px] object-cover opacity-80 brightness-75"
+                                src="./assets/images/h.webp" width="800" height="500" fetchpriority="high"
+                                decoding="async" />
                             <div class="absolute bottom-6 right-6 z-20 text-right">
                                 <p
                                     class="text-[var(--accent-gold)] font-display text-2xl md:text-3xl italic tracking-wide mb-1">
@@ -500,8 +221,8 @@
                         class="my-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white dark:bg-slate-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl relative overflow-hidden group">
                         <div class="absolute top-0 left-0 w-2 h-full bg-red-600"></div>
                         <div class="relative">
-                            <img alt="The Hidden Danger: Scratched plastic board"
-                                class="w-full h-64 object-cover rounded-lg shadow-inner mb-3" src="./assets/old.webp">
+                            <img loading="lazy" alt="The Hidden Danger: Scratched plastic board"
+                                class="w-full h-64 object-cover rounded-lg shadow-inner mb-3" src="./assets/images/old.webp">
                             <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest text-center mt-2">
                                 Magnified 50x: A Microbial Canyon</p>
                         </div>
@@ -528,8 +249,9 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <div class="relative">
-                                    <img alt="Scratched plastic board macro" class="w-full h-64 object-cover rounded-lg"
-                                        src="./assets/my board 1.webp" />
+                                    <img loading="lazy" alt="Scratched plastic board macro"
+                                        class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/images/my board 1.webp" />
                                     <div
                                         class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 uppercase rounded">
                                         My board</div>
@@ -538,8 +260,9 @@
                             </div>
                             <div class="space-y-2">
                                 <div class="relative">
-                                    <img alt="Smooth Titanium Surface" class="w-full h-64 object-cover rounded-lg"
-                                        src="./assets/my board 2.webp" />
+                                    <img loading="lazy" alt="Smooth Titanium Surface"
+                                        class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/images/my board 2.webp" />
                                     <div
                                         class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 uppercase rounded">
                                         Details</div>
@@ -631,9 +354,9 @@
                                     <div
                                         class="absolute inset-0 bg-gradient-to-t from-[#0a1930] via-transparent to-transparent opacity-60 z-10">
                                     </div>
-                                    <img alt="Microscopic view of plastic fibers in food sample"
+                                    <img loading="lazy" alt="Microscopic view of plastic fibers in food sample"
                                         class="rounded-lg shadow-lg border border-blue-800 w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500"
-                                        src="./assets/old.webp" />
+                                        src="./assets/images/old.webp" />
                                     <div class="absolute bottom-8 left-4 z-20">
                                         <span
                                             class="bg-black/70 backdrop-blur-sm px-3 py-1 rounded text-xs text-white font-mono border border-white/20">
@@ -679,9 +402,9 @@
 
                     <div
                         class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
-                        <img alt="Chef James in Kitchen"
+                        <img loading="lazy" alt="Chef James in Kitchen"
                             class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
-                            src="./assets/Chef James.webp">
+                            src="./assets/images/Chef James.webp">
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent flex flex-col justify-end p-6 md:p-8">
                             <div
@@ -710,17 +433,19 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <div class="relative">
-                                    <img alt="Scratched plastic board macro" class="w-full h-64 object-cover rounded-lg"
-                                        src="./assets/board show 1.webp" />
+                                    <img loading="lazy" alt="Scratched plastic board macro"
+                                        class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/images/board show 1.webp" />
                                     <div
-                                        class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 uppercase rounded">
-                                        Standard Plastic</div>
+                                        class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 uppercase rounded">
+                                        Yooje Titanium</div>
                                 </div>
                             </div>
                             <div class="space-y-2">
                                 <div class="relative">
-                                    <img alt="Smooth Titanium Surface" class="w-full h-64 object-cover rounded-lg"
-                                        src="./assets/board show 2.webp" />
+                                    <img loading="lazy" alt="Smooth Titanium Surface"
+                                        class="w-full h-64 object-cover rounded-lg"
+                                        src="./assets/images/board show 2.webp" />
                                     <div
                                         class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 uppercase rounded">
                                         Yooje Titanium</div>
@@ -765,22 +490,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
                         <div
                             class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span
-                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">blur_off</span>
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">blur_off</span>
                             <h4 class="font-bold text-gray-900 dark:text-white text-sm">Zero Residue</h4>
                             <p class="text-xs text-gray-500 mt-1">Nothing sticks, nothing stains.</p>
                         </div>
                         <div
                             class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span
-                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">grain</span>
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">grain</span>
                             <h4 class="font-bold text-gray-900 dark:text-white text-sm">No Microplastics</h4>
                             <p class="text-xs text-gray-500 mt-1">100% pure solid titanium.</p>
                         </div>
                         <div
                             class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span
-                                class="material-symbols-outlined text-[var(--primary-color)] text-4xl mb-2">verified_user</span>
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">verified_user</span>
                             <h4 class="font-bold text-gray-900 dark:text-white text-sm">Lifetime Durability</h4>
                             <p class="text-xs text-gray-500 mt-1">Buy once, use forever.</p>
                         </div>
@@ -915,9 +637,9 @@
                         </div>
                         <div
                             class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
-                            <img alt="Chef James in Kitchen"
+                            <img loading="lazy" alt="Chef James in Kitchen"
                                 class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
-                                src="./assets/board used.webp">
+                                src="./assets/images/board used.webp">
                         </div>
                         <p
                             class="text-center font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white mt-10 leading-relaxed">
@@ -1190,7 +912,7 @@
                         class="bg-[var(--navy-deep)] text-white rounded-3xl overflow-hidden shadow-2xl relative my-12">
                         <div class="grid md:grid-cols-2">
                             <div class="relative h-64 md:h-auto bg-slate-800 img-container">
-                                <img src="https://images.unsplash.com/photo-1520695287272-b7a816006371?auto=format&fit=crop&w=800&q=80"
+                                <img loading="lazy" src="https://images.unsplash.com/photo-1520695287272-b7a816006371?auto=format&fit=crop&w=800&q=80"
                                     alt="Pure Titanium Surface" class="img-cover opacity-90 object-cover h-full w-full">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-[var(--navy-deep)] via-transparent to-transparent">
@@ -1263,9 +985,9 @@
                         <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
-                                <img alt="Minimalist London apartment kitchen with Yooje board"
+                                <img loading="lazy" alt="Minimalist London apartment kitchen with Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user1.gif" />
+                                    src="./assets/images/user1.gif" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1278,9 +1000,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
-                                <img alt="Rustic country cottage kitchen with Sunday roast ingredients"
+                                <img loading="lazy" alt="Rustic country cottage kitchen with Sunday roast ingredients"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user2.webp" />
+                                    src="./assets/images/user2.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1293,9 +1015,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
-                                <img alt="Close-up of One Year Later board looking new"
+                                <img loading="lazy" alt="Close-up of One Year Later board looking new"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user10.webp" />
+                                    src="./assets/images/user10.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1311,9 +1033,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300">
-                                <img alt="Healthy family meal prep scene"
+                                <img loading="lazy" alt="Healthy family meal prep scene"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user4.webp" />
+                                    src="./assets/images/user4.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1327,9 +1049,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
-                                <img alt="Modern kitchen with Yooje board"
+                                <img loading="lazy" alt="Modern kitchen with Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user5.jpg.webp" />
+                                    src="./assets/images/user5.jpg.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1342,9 +1064,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
-                                <img alt="Vegetables on Yooje board"
+                                <img loading="lazy" alt="Vegetables on Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user7.webp" />
+                                    src="./assets/images/user7.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1357,9 +1079,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
-                                <img alt="Vegetables on Yooje board"
+                                <img loading="lazy" alt="Vegetables on Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user6.gif" />
+                                    src="./assets/images/user6.gif" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1372,9 +1094,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
-                                <img alt="Vegetables on Yooje board"
+                                <img loading="lazy" alt="Vegetables on Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user8.webp" />
+                                    src="./assets/images/user8.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1387,9 +1109,9 @@
                             </div>
                             <div
                                 class="break-inside-avoid relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-xl transition-all duration-300 md:hidden lg:block">
-                                <img alt="Vegetables on Yooje board"
+                                <img loading="lazy" alt="Vegetables on Yooje board"
                                     class="w-full h-auto m-0 object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    src="./assets/user9.webp" />
+                                    src="./assets/images/user9.webp" />
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
@@ -1431,8 +1153,8 @@
                             <div
                                 class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
                                 <div class="flex gap-4">
-                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
-                                        src="./assets/comment6.webp" />
+                                    <img loading="lazy" alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/images/comment6.webp" />
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-1">
                                             <span class="font-bold text-gray-900 dark:text-white font-display">Sarah
@@ -1465,8 +1187,9 @@
                                             class="mt-6 ml-4 pl-4 border-l-2 border-gray-100 dark:border-gray-700 space-y-6">
                                             <div
                                                 class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment2.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment2.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1484,8 +1207,9 @@
                                             </div>
                                             <div
                                                 class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment7.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment7.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1506,8 +1230,9 @@
                                             </div>
                                             <div
                                                 class="flex gap-3 bg-green-50 dark:bg-green-500/10 p-3 rounded border border-green-100 dark:border-green-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment6.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment6.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1527,8 +1252,8 @@
                             <div
                                 class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
                                 <div class="flex gap-4">
-                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
-                                        src="./assets/comment8.webp" />
+                                    <img loading="lazy" alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/images/comment8.webp" />
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-1">
                                             <span class="font-bold text-gray-900 dark:text-white font-display">Dr.
@@ -1562,8 +1287,9 @@
                                             class="mt-6 ml-4 pl-4 border-l-2 border-gray-100 dark:border-gray-700 space-y-6">
                                             <div
                                                 class="flex gap-3 bg-red-50 dark:bg-red-600/10 p-3 rounded border border-red-100 dark:border-red-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment3.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment3.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1579,8 +1305,9 @@
                                             </div>
                                             <div
                                                 class="flex gap-3 bg-white-50 dark:bg-white-600/10 p-3 rounded border border-white-100 dark:border-white-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment5.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment5.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1598,8 +1325,9 @@
                                             </div>
                                             <div
                                                 class="flex gap-3 bg-green-50 dark:bg-green-600/10 p-3 rounded border border-green-100 dark:border-green-900/30">
-                                                <img alt="Avatar" class="w-8 h-8 my-0 rounded-full object-cover"
-                                                    src="./assets/comment3.webp" />
+                                                <img loading="lazy" alt="Avatar"
+                                                    class="w-8 h-8 my-0 rounded-full object-cover"
+                                                    src="./assets/images/comment3.webp" />
                                                 <div>
                                                     <div class="flex items-center gap-2 mb-0.5">
                                                         <span
@@ -1621,8 +1349,8 @@
                             <div
                                 class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
                                 <div class="flex gap-4">
-                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
-                                        src="./assets/comment4.webp" />
+                                    <img loading="lazy" alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/images/comment4.webp" />
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-1">
                                             <span class="font-bold text-gray-900 dark:text-white font-display">Brian
@@ -1658,8 +1386,8 @@
                             <div
                                 class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 shadow-sm">
                                 <div class="flex gap-4">
-                                    <img alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
-                                        src="./assets/comment1.webp" />
+                                    <img loading="lazy" alt="Avatar" class="w-12 h-12 my-0 rounded-full object-cover"
+                                        src="./assets/images/comment1.webp" />
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-1">
                                             <span class="font-bold text-gray-900 dark:text-white font-display">Heather
@@ -1841,9 +1569,9 @@
                                         <div>
                                             <div class="text-lg font-bold text-gray-700">Starter Pack</div>
                                             <div class="text-xs text-gray-400 mb-4">Essential Hygiene Upgrade</div>
-                                            <img alt="Product Shot"
+                                            <img loading="lazy" alt="Product Shot"
                                                 class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
-                                                src="./assets/Check.webp">
+                                                src="./assets/images/Check.webp">
                                         </div>
                                         <div class="mt-4 pt-4 border-t border-gray-100">
                                             <ul class="text-xs text-left space-y-2 mb-4 text-gray-600">
@@ -1872,9 +1600,9 @@
                                                 <span class="material-icons text-xs mr-1">info</span> Expert Tip: Use
                                                 separate boards for Raw Meat & Veggies
                                             </div>
-                                            <img alt="Product Shot"
+                                            <img loading="lazy" alt="Product Shot"
                                                 class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
-                                                src="./assets/Check.webp">
+                                                src="./assets/images/Check.webp">
                                         </div>
                                         <div class="mt-6 pt-4 border-t border-gray-600">
                                             <ul class="text-xs text-left space-y-2 mb-6 text-slate-300">
@@ -1923,9 +1651,9 @@
                             <h3 class="text-white font-display font-bold text-lg">The "Yooje" Board</h3>
                         </div>
                         <div class="p-6 text-center">
-                            <img alt="Product Shot"
+                            <img loading="lazy" alt="Product Shot"
                                 class="w-56 mx-auto mb-4 rounded shadow-sm border border-gray-100 dark:border-gray-600 bg-white"
-                                src="./assets/Check.webp" />
+                                src="./assets/images/Check.webp" />
                             <div class="flex justify-center items-center text-yellow-400 mb-2">
                                 <span class="material-icons text-sm">star</span>
                                 <span class="material-icons text-sm">star</span>
@@ -2051,7 +1779,7 @@
             <div class="p-8 text-center">
                 <div
                     class="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="material-symbols-outlined text-secondary text-3xl">verified_user</span>
+                    <span class="material-icons text-secondary text-3xl">verified_user</span>
                 </div>
                 <p class="text-gray-900 dark:text-white font-display font-bold text-lg mb-4">Verification Required</p>
                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-6">Only verified members who have purchased can
@@ -2063,6 +1791,162 @@
             </div>
         </div>
     </div>
+
+
+
+    <script>
+
+        /* ============================================================
+           1. 移植部分：弹出窗口逻辑 
+           ============================================================ */
+        let timerStarted = false;
+        let timeLeft = 600;
+        function startTimer() {
+            if (timerStarted) return;
+            timerStarted = true;
+            const display = document.getElementById('countdown-timer');
+            const interval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                display.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) clearInterval(interval);
+                timeLeft--;
+            }, 1000);
+        }
+        document.addEventListener('mouseleave', (e) => {
+            // if (e.clientY < 0) {
+            //     const popup = document.getElementById('exit-intent-popup');
+            //     if (!popup.classList.contains('active')) {
+            //         popup.classList.add('active');
+            //         startTimer();
+            //     }
+            // }
+        });
+        function closePopup() {
+            document.getElementById('exit-intent-popup').classList.remove('active');
+        }
+
+        /* ============================================================
+           2. 移植部分：计算器与交互逻辑 (来自 6.html)
+           已调整为适配 code2 的 Material Icons 和颜色变量
+           ============================================================ */
+        let calcState = { material: 'plastic', age: 2, usage: 2 };
+
+        function setCalc(mat) {
+            calcState.material = mat;
+            document.querySelectorAll('.calc-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${mat}`).classList.add('active');
+            updateCalculator();
+        }
+
+        function setUsage(level) {
+            calcState.usage = level;
+            document.querySelectorAll('.usage-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-white', 'text-gray-500'); // 重置样式
+            });
+            const activeBtn = document.getElementById(`use-${level}`);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-white', 'text-gray-500');
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            calcState.age = parseFloat(document.getElementById('age-slider').value);
+            const ageText = calcState.age === 0 ? "Brand New" : calcState.age + (calcState.age === 5 ? "+ Years" : " Years");
+            document.getElementById('age-display').innerText = ageText;
+
+            const bacteriaVal = document.getElementById('bacteria-val');
+            const bacteriaBar = document.getElementById('bacteria-bar');
+            const plasticVal = document.getElementById('plastic-val');
+            const plasticBar = document.getElementById('plastic-bar');
+            const fragilityVal = document.getElementById('fragility-val');
+            const fragilityBar = document.getElementById('fragility-bar');
+            const riskBadge = document.getElementById('risk-badge');
+
+            const recBox = document.getElementById('rec-box');
+            const recIcon = document.getElementById('rec-icon'); // Material Icon element
+            const recTitle = document.getElementById('rec-title');
+            const recText = document.getElementById('rec-text');
+
+            const usageMult = calcState.usage === 1 ? 0.7 : (calcState.usage === 3 ? 1.5 : 1.0);
+
+            // 逻辑判断 
+            if (calcState.material === 'titanium') {
+                riskBadge.innerText = "SAFE";
+                riskBadge.className = "bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold";
+
+                bacteriaVal.innerText = "< 10 (Sterile)"; bacteriaVal.className = "font-bold text-primary";
+                bacteriaBar.style.width = "1%"; bacteriaBar.className = "h-full bg-primary transition-all duration-1000";
+
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Unbreakable"; fragilityVal.className = "font-bold text-primary";
+                fragilityBar.style.width = "0%"; fragilityBar.className = "h-full bg-primary transition-all duration-1000";
+
+                recBox.className = "bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "check_circle"; recIcon.className = "material-icons text-primary mt-1 text-lg";
+                recTitle.innerText = "Excellent Choice"; recText.innerText = "Titanium is non-porous and naturally anti-bacterial.";
+            }
+            else if (calcState.material === 'glass') {
+                riskBadge.innerText = "HIGH RISK";
+                riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
+
+                bacteriaVal.innerText = "Moderate-High (Biofilm)"; bacteriaVal.className = "font-bold text-orange-600";
+                bacteriaBar.style.width = "65%"; bacteriaBar.className = "h-full bg-orange-500 transition-all duration-1000";
+
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Critical (Explosive Shatter)"; fragilityVal.className = "font-bold text-red-600";
+                fragilityBar.style.width = "100%"; fragilityBar.className = "h-full bg-red-600 transition-all duration-1000";
+
+                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "warning"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
+                recTitle.innerText = "Safety Hazard Detected"; recText.innerText = "Glass surfaces pose severe shattering risks and ruin knife edges.";
+            }
+            else if (calcState.material === 'plastic') {
+                const plasticGrams = calcState.age === 0 ? 0.5 : (calcState.age * 5 * usageMult).toFixed(1);
+                const cards = (plasticGrams / 5).toFixed(1);
+
+                plasticVal.innerText = `${plasticGrams}g (~${Math.max(0.1, cards)} Credit Cards)`;
+                plasticBar.style.width = Math.min(100, (plasticGrams / 25) * 100) + "%";
+
+                fragilityVal.innerText = "Low"; fragilityVal.className = "font-bold text-gray-500";
+                fragilityBar.style.width = "10%"; fragilityBar.className = "h-full bg-gray-300 transition-all duration-1000";
+
+                let bacLevel = calcState.age > 1 ? "Biohazard Level" : "Moderate";
+                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-red-600";
+                bacteriaBar.style.width = calcState.age > 1 ? "95%" : "50%"; bacteriaBar.className = "h-full bg-red-600 transition-all duration-1000";
+
+                riskBadge.innerText = "CRITICAL RISK"; riskBadge.className = "bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold animate-pulse";
+
+                recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "dangerous"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
+                recTitle.innerText = "Action Required Immediately"; recText.innerText = "Active shedding of microplastics and deep pathogen breeding grounds.";
+            }
+            else { // WOOD
+                plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
+
+                fragilityVal.innerText = "Low (Splinters)"; fragilityVal.className = "font-bold text-orange-400";
+                fragilityBar.style.width = "20%"; fragilityBar.className = "h-full bg-orange-400 transition-all duration-1000";
+
+                let bacLevel = calcState.age > 1 ? "High Risk (Deep Pores)" : "Moderate";
+                bacteriaVal.innerText = bacLevel; bacteriaVal.className = "font-bold text-orange-600";
+                bacteriaBar.style.width = calcState.age > 1 ? "85%" : "50%"; bacteriaBar.className = "h-full bg-orange-600 transition-all duration-1000";
+
+                riskBadge.innerText = "HIGH RISK"; riskBadge.className = "bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-bold";
+
+                recBox.className = "bg-orange-50 border border-orange-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
+                recIcon.innerText = "info"; recIcon.className = "material-icons text-orange-600 mt-1 text-lg";
+                recTitle.innerText = "Difficult to Sanitize"; recText.innerText = "Wood is extremely porous. Meat juices seep deep into the grain where sponges cannot reach.";
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+
+        });
+    </script>
 </body>
 
 </html>
