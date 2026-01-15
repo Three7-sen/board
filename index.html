@@ -15,7 +15,7 @@
 <body
     class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 font-body antialiased transition-colors duration-200">
 
-    <div class="fixed inset-0 z-[1000] items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xl transition-all duration-300"
+    <div class="hidden fixed inset-0 z-[1000] items-center justify-center p-4 bg-slate-900/80 backdrop-blur-xl transition-all duration-300"
         id="exit-intent-popup">
         <div
             class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border-2 border-[var(--accent-gold)] shadow-[0_0_80px_rgba(212,175,55,0.4)] overflow-hidden">
@@ -1730,18 +1730,60 @@
                 timeLeft--;
             }, 1000);
         }
-        document.addEventListener('mouseleave', (e) => {
-            if (e.clientY < 0) {
-                const popup = document.getElementById('exit-intent-popup');
-                if (!popup.classList.contains('active')) {
-                    popup.classList.add('active');
-                    startTimer();
-                }
+
+
+        //弹窗
+        document.addEventListener("DOMContentLoaded", function () {
+            const popup = document.getElementById('exit-intent-popup');
+
+            // 1. 定义显示弹窗函数
+            function showExitPopup() {
+                // 如果已经在显示了，就不重复操作
+                if (!popup.classList.contains('hidden')) return;
+
+                popup.classList.remove('hidden'); // 移除隐藏
+                popup.classList.add('flex');      // 加上 Flex 布局以居中显示
+
+                // 启动倒计时 (如果你的代码里有 startTimer 函数)
+                if (typeof startTimer === 'function') startTimer();
             }
+
+            // 2. 定义关闭弹窗函数 
+            // 关键点：挂载到 window 对象上，因为你的 HTML 按钮里写了 onclick="closePopup()"
+            window.closePopup = function () {
+                popup.classList.remove('flex');
+                popup.classList.add('hidden');  // 加回隐藏
+            }
+
+            // 3. 触发器：鼠标移出浏览器顶部 (Desktop)
+            document.addEventListener('mouseleave', (e) => {
+                if (e.clientY < 0) {
+                    showExitPopup();
+                }
+            });
+
+            // 4. 新增功能：点击空白处关闭
+            popup.addEventListener('click', function (e) {
+                // 如果点击的是背景遮罩层(this)，而不是里面的内容卡片
+                if (e.target === this) {
+                    closePopup();
+                }
+            });
         });
-        function closePopup() {
-            document.getElementById('exit-intent-popup').classList.remove('active');
-        }
+
+
+        // document.addEventListener('mouseleave', (e) => {
+        //     if (e.clientY < 0) {
+        //         const popup = document.getElementById('exit-intent-popup');
+        //         if (!popup.classList.contains('active')) {
+        //             popup.classList.add('active');
+        //             startTimer();
+        //         }
+        //     }
+        // });
+        // function closePopup() {
+        //     document.getElementById('exit-intent-popup').classList.remove('active');
+        // }
 
         /* ============================================================
            2. 移植部分：计算器与交互逻辑 
