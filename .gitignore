@@ -1,8 +1,8 @@
-.DS_Store
+.**/.DS_Store
 package-lock.json
 package.json
 tailwind.config.js
 input.css
-.DS_Store
 node_modules
 .git
+

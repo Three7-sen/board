@@ -9,12 +9,6 @@
 
     <link href="./assets/css/style.css" rel="stylesheet">
     <link rel="preload" as="image" href="./assets/images/h.webp">
-
-    <style type="text">
-        #comment-modal:target {
-            display: flex;
-        }
-    </style>
 </head>
 
 <body
@@ -104,7 +98,6 @@
         </div>
     </div>
 
-
     <div class="w-full bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 py-2">
         <div
             class="max-w-7xl mx-auto px-4 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest">
@@ -112,7 +105,6 @@
             <span>Food & Lifestyle • United Kingdom</span>
         </div>
     </div>
-
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -141,7 +133,6 @@
                     </div>
                 </header>
 
-
                 <section class="my-12 relative">
                     <div
                         class="bg-[var(--slate-charcoal)] rounded-xl md:p-1 border border-[var(--accent-gold)] shadow-2xl overflow-hidden">
@@ -159,8 +150,8 @@
                             </div>
                             <img alt="Chef Julian slicing ingredients on Yooje board"
                                 class="w-full h-[500px] object-cover opacity-80 brightness-75"
-                                src="./assets/images/h.webp" width="800" height="500" fetchpriority="high"
-                                decoding="async" />
+                                style="aspect-ratio: 800/500;" src="./assets/images/h.webp" width="800" height="500"
+                                fetchpriority="high" decoding="async" />
                             <div class="absolute bottom-6 right-6 z-20 text-right">
                                 <p
                                     class="text-[var(--accent-gold)] font-display text-2xl md:text-3xl italic tracking-wide mb-1">
@@ -188,7 +179,6 @@
                     </div> -->
                 </section>
 
-
                 <div class="prose prose-lg prose-slate dark:prose-invert max-w-none font-body">
                     <p
                         class="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-1 float-left">
@@ -214,9 +204,6 @@
                         slices over the years.
                     </p>
 
-
-
-
                     <!-- <div
                         class="my-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center bg-white dark:bg-slate-800 p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-2xl relative overflow-hidden group">
                         <div class="absolute top-0 left-0 w-2 h-full bg-red-600"></div>
@@ -240,10 +227,6 @@
                             </p>
                         </div>
                     </div> -->
-
-
-
-
 
                     <div class="mb-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -313,9 +296,6 @@
                         </ul>
                     </div> -->
 
-
-
-
                     <section class="my-12 bg-[#0a1930] text-white p-8 rounded-xl shadow-2xl relative overflow-hidden">
                         <div
                             class="absolute top-0 right-0 w-64 h-64 bg-blue-500 opacity-5 rounded-full -mr-32 -mt-32 blur-3xl">
@@ -323,7 +303,7 @@
                         <div
                             class="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500 opacity-5 rounded-full -ml-32 -mb-32 blur-3xl">
                         </div>
-                        <div class="relative z-10">
+                        <div class="relative">
                             <div class="flex items-center space-x-3 mb-6">
                                 <span
                                     class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-600 animate-pulse">
@@ -352,17 +332,18 @@
                                 </div>
                                 <div class="relative group">
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-[#0a1930] via-transparent to-transparent opacity-60 z-10">
+                                        class="absolute inset-0 bg-gradient-to-t from-[#0a1930] via-transparent to-transparent opacity-60">
                                     </div>
                                     <img loading="lazy" alt="Microscopic view of plastic fibers in food sample"
                                         class="rounded-lg shadow-lg border border-blue-800 w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500"
                                         src="./assets/images/old.webp" />
-                                    <div class="absolute bottom-8 left-4 z-20">
+                                    <div class="absolute bottom-8 left-4">
                                         <span
                                             class="bg-black/70 backdrop-blur-sm px-3 py-1 rounded text-xs text-white font-mono border border-white/20">
-                                            FIG 1.A: MICROSCOPIC VIEW (500x)
+                                            <!-- FIG 1.A: MICROSCOPIC VIEW (500x) -->
+                                            FIG 1.A: TEST VIEW
                                         </span>
-                                        <p class="text-xs text-gray-300 mt-1 max-w-[250px]">Polyethylene
+                                        <p class="text-xs text-black mt-1 max-w-[250px]">Polyethylene
                                             fibers embedded in organic food matter after standard chopping.</p>
                                     </div>
                                 </div>
@@ -378,7 +359,7 @@
                                     </div>
                                 </div>
                                 <a class="inline-flex items-center text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 py-2 px-4 rounded transition-colors shadow-lg hover:shadow-blue-500/25"
-                                    href="#">
+                                    href="#Interactive-Lab-Tool">
                                     Hygiene Risk Calculator
                                     <span class="material-icons text-sm ml-1">arrow_forward</span>
                                 </a>
@@ -456,35 +437,34 @@
                                 Solution:</strong>
                             Medical-grade titanium remains smooth, non-porous and bacteria-free.</p>
                     </div>
-
-
-
-
-
-
                     <!-- 产品特点 -->
                     <h3
                         class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
                         What makes Yooje™ so special?
                     </h3>
 
-
-
-
-
                     <ul class="space-y-2 mb-8 list-none pl-0">
-                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
-                            <strong>Non-porous surface:</strong> No micro-cracks for meat juices or bacteria.
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Non-porous surface:</strong> No micro-cracks for meat juices or
+                                bacteria.</p>
                         </li>
-                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
-                            <strong>No abrasion:</strong> Unlike plastic, titanium doesn't release particles into food.
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>No abrasion:</strong> Unlike plastic, titanium doesn't release
+                                particles into
+                                food.</p>
                         </li>
-                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
-                            <strong>Antibacterial properties:</strong> Titanium is naturally very low in germs.
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Antibacterial properties:</strong> Titanium is naturally very low in
+                                germs.</p>
                         </li>
-                        <li class="flex items-center"><span class="material-icons text-primary mr-2">check_circle</span>
-                            <strong>Gentle on knives:</strong> The surface is treated to be "glass-like" but not
-                            damaging to blades.
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Gentle on knives:</strong> The surface is treated to be "glass-like"
+                                but not
+                                damaging to blades.</p>
                         </li>
                     </ul>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
@@ -507,17 +487,6 @@
                             <p class="text-xs text-gray-500 mt-1">Buy once, use forever.</p>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
 
                     <div class="dark:border-gray-800">
                         <h3
@@ -651,7 +620,7 @@
                     <!-- 对比表格 -->
                     <div
                         class="my-16 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark">
-                        <div class="bg-[var(--navy-deep)] p-4 text-center">
+                        <div class="bg-secondary p-4 text-center">
                             <h3 class="text-xl md:text-2xl font-display font-bold text-white m-0 tracking-wide">The
                                 Great British Board Debate: Titanium vs. The Rest</h3>
                         </div>
@@ -761,13 +730,13 @@
 
                     <!-- 测试工具 -->
                     <div class="bg-surface-light border border-gray-200 rounded-3xl p-8 relative overflow-hidden shadow-inner my-16"
-                        id="calculator">
+                        id="Interactive-Lab-Tool">
                         <div class="absolute -top-20 -right-20 w-64 h-64 bg-green-100 rounded-full blur-3xl opacity-50">
                         </div>
                         <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-100 rounded-full blur-3xl opacity-30">
                         </div>
 
-                        <div class="relative z-10 text-center max-w-2xl mx-auto mb-12">
+                        <div class="relative text-center max-w-2xl mx-auto mb-12">
                             <!-- <div
                                 class="inline-block bg-white border border-gray-200 px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">
                                 Interactive Lab Tool</div> -->
@@ -780,7 +749,7 @@
                                 ingestion, and breakage risk of your current setup.</p>
                         </div>
 
-                        <div class="grid lg:grid-cols-2 gap-12 relative z-10">
+                        <div class="grid lg:grid-cols-2 gap-12 relative">
                             <div class="space-y-8">
                                 <div>
                                     <label
@@ -894,83 +863,7 @@
                         </div>
                     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    <!-- 黑底特点效果 -->
-                    <!-- <section
-                        class="bg-[var(--navy-deep)] text-white rounded-3xl overflow-hidden shadow-2xl relative my-12">
-                        <div class="grid md:grid-cols-2">
-                            <div class="relative h-64 md:h-auto bg-slate-800 img-container">
-                                <img loading="lazy" src="https://images.unsplash.com/photo-1520695287272-b7a816006371?auto=format&fit=crop&w=800&q=80"
-                                    alt="Pure Titanium Surface" class="img-cover opacity-90 object-cover h-full w-full">
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-[var(--navy-deep)] via-transparent to-transparent">
-                                </div>
-                                <div class="absolute bottom-8 left-8">
-                                    <div class="text-4xl mb-2 font-mono font-bold tracking-tighter">Ti-1067</div>
-                                    <div class="h-1 w-16 bg-primary mb-4 rounded-full"></div>
-                                    <p class="text-slate-300 text-sm max-w-xs">The same alloy used in aerospace. Now in
-                                        your kitchen.</p>
-                                </div>
-                            </div>
-                            <div class="p-8 md:p-12 flex flex-col justify-center">
-                                <div
-                                    class="inline-block bg-primary/50 text-green-300 text-[10px] font-bold px-3 py-1 rounded-full mb-4 self-start border border-green-800">
-                                    THE 2024 SOLUTION</div>
-                                <h2 class="text-3xl font-bold mb-8 font-display text-white">Why Titanium?</h2>
-                                <ul class="space-y-8">
-                                    <li class="flex gap-4 group">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
-                                            1</div>
-                                        <div>
-                                            <h4 class="font-bold text-lg text-blue-50">Biocompatible & Inert</h4>
-                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">Naturally forms an
-                                                oxide layer that prevents metal leaching. Adds zero taste to your food.
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li class="flex gap-4 group">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
-                                            2</div>
-                                        <div>
-                                            <h4 class="font-bold text-lg text-blue-50">Impossible to Rust</h4>
-                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">Immune to corrosion
-                                                from acidic foods like lemons or tomatoes. Dishwasher safe.</p>
-                                        </div>
-                                    </li>
-                                    <li class="flex gap-4 group">
-                                        <div
-                                            class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-primary font-bold shrink-0 shadow-lg group-hover:border-primary transition">
-                                            3</div>
-                                        <div>
-                                            <h4 class="font-bold text-lg text-blue-50">Zero Microplastics</h4>
-                                            <p class="text-slate-400 text-sm leading-relaxed mt-1">A solid metal surface
-                                                means no synthetic particles are shaved off into your family's dinner.
-                                            </p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </section> -->
-
-
-
-
-                    <!-- Seller Show -->
+                    <!-- 买家秀部分 Show -->
                     <section class="my-16 dark:border-gray-800">
                         <div class="text-center mb-10">
                             <span
@@ -1132,8 +1025,6 @@
                         </div> -->
                     </section>
 
-
-
                     <!-- 评论区新 -->
                     <section class="my-16 dark:border-gray-800">
                         <div class="flex items-center justify-between mb-10">
@@ -1165,7 +1056,8 @@
                                                 Buyer
                                             </span>
                                             <span class="text-xs text-gray-400 font-sans">• London</span>
-                                            <span class="text-xs text-gray-400 font-sans">• 2 days ago</span>
+
+                                            <span class="text-xs text-gray-400 font-sans">• 1 days ago</span>
                                         </div>
                                         <div class="flex text-yellow-400 mb-2">
                                             <span class="material-icons text-xs">star</span>
@@ -1430,122 +1322,7 @@
                         </div>
                     </section>
 
-                    <!-- 评论区老 -->
-                    <!-- <section class="max-w-4xl mx-auto py-10">
-                        <h2 class="text-center text-2xl font-bold text-gray-900 mb-8 font-display">Community Discussion
-                        </h2>
-
-                        <div class="space-y-6">
-                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
-                                            SC</div>
-                                        <div>
-                                            <div class="text-xs font-bold text-gray-900">Sophie_CleanEats</div>
-                                            <div class="text-[10px] text-gray-400">Manchester • Verified Purchase • 1
-                                                day ago</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-2">
-                                    <span class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span>
-                                </div>
-                                <p class="text-gray-700 text-sm">"Finally a board that doesn't stain! I made a heavy
-                                    turmeric curry and beetroot salad yesterday. Usually my plastic board turns yellow
-                                    instantly. This rinsed off to brand new in seconds. So satisfying."</p>
-                                <div class="mt-3 flex items-center gap-4 text-gray-400 text-xs">
-                                    <span
-                                        class="like-btn flex items-center gap-1 hover:text-primary cursor-pointer"><span
-                                            class="material-icons text-sm">thumb_up</span> 28</span>
-                                    <span class="cursor-pointer hover:text-primary">Reply</span>
-                                </div>
-                            </div>
-
-                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
-                                            MK</div>
-                                        <div>
-                                            <div class="text-xs font-bold text-gray-900">Michael K.</div>
-                                            <div class="text-[10px] text-gray-400">London • Verified Purchase • 3 days
-                                                ago</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-2">
-                                    <span class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span>
-                                </div>
-                                <p class="text-gray-700 text-sm">"Absolutely game-changing for prep work. The defrosting
-                                    speed is real - my steaks thaw in half the time. And it looks sleek on the counter."
-                                </p>
-                                <div class="mt-3 flex items-center gap-4 text-gray-400 text-xs">
-                                    <span
-                                        class="like-btn flex items-center gap-1 hover:text-primary cursor-pointer"><span
-                                            class="material-icons text-sm">thumb_up</span> 142</span>
-                                    <span class="cursor-pointer hover:text-primary">Reply</span>
-                                </div>
-                            </div>
-
-                            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                                <div class="flex items-center gap-1 text-[var(--accent-gold)] text-xs mb-3">
-                                    <span class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span><span
-                                        class="material-icons text-sm">star</span>
-                                    <span class="text-gray-400 ml-2 text-[10px]">Verified Purchase • 7 days ago</span>
-                                </div>
-                                <p class="text-gray-700 italic text-sm mb-4">"I bought the 2-pack bundle. One for raw
-                                    meats, one for veggies. It feels so much cleaner than my old scratched up plastic
-                                    boards."</p>
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500 text-xs">
-                                        EM</div>
-                                    <div class="text-xs font-bold text-gray-900">Emily M., Leeds</div>
-                                </div>
-
-                                <div class="pl-4 md:pl-8 border-l-2 border-gray-100 space-y-4">
-                                    <div class="bg-red-50 p-3 rounded-lg border border-red-100">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs font-bold text-red-700">Skeptic_Chef_88</span>
-                                            <span class="text-[10px] text-red-400">7 days ago</span>
-                                        </div>
-                                        <p class="text-xs text-red-800">Honestly this sounds like fear-mongering to sell
-                                            expensive metal. I've used plastic boards for 10 years and I'm fine.</p>
-                                    </div>
-                                    <div class="bg-green-50 p-3 rounded-lg border border-green-100">
-                                        <div class="flex items-center justify-between mb-1">
-                                            <span class="text-xs font-bold text-green-700">Skeptic_Chef_88</span>
-                                            <span class="text-[10px] text-green-500">1 day ago</span>
-                                        </div>
-                                        <p class="text-xs text-green-800 font-medium">
-                                            <span class="material-icons text-xs align-middle">check_circle</span>
-                                            Update: Okay, I stand corrected. I just chopped an onion on my plastic board
-                                            and looked closely. Tiny shavings mixed in. Just ordered the bundle.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section> -->
-
-
-
-
-
+                    <!-- Get 折扣区 -->
                     <section id="offer-section" class="bg-white border-gray-200 pt-10 pb-4">
                         <div
                             class="bg-gradient-to-b from-[#1e3a8a] to-[#0f172a] rounded-2xl shadow-2xl overflow-hidden text-white p-1 relative">
@@ -1565,13 +1342,13 @@
                                 <div class="flex flex-col md:flex-row justify-center gap-6 mb-10">
 
                                     <div
-                                        class="bg-white text-gray-900 p-6 rounded-xl w-full md:w-72 border-4 border-transparent hover:border-secondary cursor-pointer transition shadow-xl flex flex-col justify-between">
+                                        class="bg-white text-gray-900 p-6 rounded-xl w-full md:w-80 border-4 border-transparent cursor-pointer transition transform hover:-translate-y-2 shadow-xl flex flex-col justify-between">
                                         <div>
                                             <div class="text-lg font-bold text-gray-700">Starter Pack</div>
                                             <div class="text-xs text-gray-400 mb-4">Essential Hygiene Upgrade</div>
                                             <img loading="lazy" alt="Product Shot"
                                                 class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
-                                                src="./assets/images/Check.webp">
+                                                src="./assets/images/Board show 3.webp">
                                         </div>
                                         <div class="mt-4 pt-4 border-t border-gray-100">
                                             <ul class="text-xs text-left space-y-2 mb-4 text-gray-600">
@@ -1583,7 +1360,7 @@
                                                     30-Year Warranty</li>
                                             </ul>
                                             <button
-                                                class="w-full bg-gray-200 text-gray-800 font-bold py-2 rounded-lg hover:bg-gray-300 transition">Select
+                                                class="w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-300 transition">Select
                                                 Single</button>
                                         </div>
                                     </div>
@@ -1602,7 +1379,7 @@
                                             </div>
                                             <img loading="lazy" alt="Product Shot"
                                                 class="w-auto mx-auto my-0 rounded shadow-sm bg-white"
-                                                src="./assets/images/Check.webp">
+                                                src="./assets/images/two Board show 1.webp">
                                         </div>
                                         <div class="mt-6 pt-4 border-t border-gray-600">
                                             <ul class="text-xs text-left space-y-2 mb-6 text-slate-300">
@@ -1622,9 +1399,7 @@
                                                 GET 50% OFF NOW</button>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div
                                     class="mt-6 flex justify-center gap-6 text-[10px] md:text-xs text-slate-400 opacity-80">
                                     <span class="flex items-center gap-1"><span
@@ -1637,13 +1412,10 @@
                             </div>
                         </div>
                     </section>
-
                 </div>
-
-
-
             </article>
-            <aside class="lg:col-span-4 space-y-8">
+
+            <aside class="lg:col-span-4 space-y-8" id="check-availability">
                 <div class="sticky top-6">
                     <div
                         class="bg-white dark:bg-surface-dark rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -1704,6 +1476,7 @@
             </aside>
         </div>
     </main>
+
     <section class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-700 py-16 lg:py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -1746,15 +1519,18 @@
             </div>
         </div>
     </section>
+
     <footer class="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-0 py-12">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-xs text-gray-500 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
-                Advertising Disclosure: This website and the products and services referred to on the website are
-                advertising marketplaces. This website is an advertisement and not a news publication. All photos of
-                people used on this website are models. The owner of this website and the products and services referred
-                to on this website merely provides a service that allows consumers to obtain information and compare
-                products. This website is not intended to provide medical advice or to take the place of medical advice
-                and treatment from your personal physician.
+                THIS IS AN ADVERTISEMENT AND NOT AN ACTUAL NEWS ARTICLE, BLOG, OR CONSUMER PROTECTION UPDATE
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 max-w-4xl mx-auto leading-relaxed mb-6">
+                THE STORY DEPICTED ON THIS SITE AND THE PERSON DEPICTED IN THE STORY ARE NOT ACTUAL NEWS. RATHER, THIS
+                STORY IS BASED ON THE RESULTS THAT SOME PEOPLE WHO HAVE USED THESE PRODUCTS HAVE ACHIEVED. THE RESULTS
+                PORTRAYED IN THE STORY AND IN THE COMMENTS ARE ILLUSTRATIVE, AND MAY NOT BE THE RESULTS THAT YOU ACHIEVE
+                WITH THESE PRODUCTS. THIS PAGE COULD RECEIVE COMPENSATION FOR CLICKS ON OR PURCHASE OF PRODUCTS FEATURED
+                ON THIS SITE.
             </p>
             <div
                 class="flex justify-center space-x-6 text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">
@@ -1764,10 +1540,12 @@
                 <a class="hover:underline" href="#">Imprint</a>
             </div>
             <p class="text-xs text-gray-400 dark:text-gray-600 mt-8">
-                © 2023 Yooje UK. All Rights Reserved.
+                Copyright © 2025 Yooje. | All rights reserved.
             </p>
         </div>
     </footer>
+
+    <!-- 评论区弹出 -->
     <div class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm"
         id="comment-modal">
         <div
@@ -1792,9 +1570,128 @@
         </div>
     </div>
 
-
+    <!-- 移动端直接跳转 -->
+    <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur shadow-[0_-4px_10px_rgba(0,0,0,0.1)] p-3 z-50 md:hidden border-t border-gray-200 transition-transform duration-300"
+        id="sticky-footer">
+        <div class="flex items-center justify-between gap-3 max-w-7xl mx-auto">
+            <div class="flex flex-col">
+                <span class="text-[10px] text-gray-500 uppercase tracking-wide">Limited Stock</span>
+                <span class="font-bold text-gray-900 text-sm">Save 50% Today</span>
+            </div>
+            <a href="#check-availability"
+                class="bg-secondary hover:bg-blue-800 text-white px-6 py-3 rounded-lg font-bold text-sm uppercase tracking-wide shadow-lg animate-pulse">
+                Get Yours Now
+            </a>
+        </div>
+    </div>
 
     <script>
+
+        // 逻辑：只有当用户向下滚动超过首屏后，才显示这个条
+        window.addEventListener('scroll', () => {
+            const footer = document.getElementById('sticky-footer');
+            if (window.scrollY > 800) { // 滚动超过 600px 显示
+                footer.style.transform = 'translateY(0)';
+            } else {
+                footer.style.transform = 'translateY(100%)'; // 隐藏
+            }
+        });
+
+
+    </script>
+
+    <script>
+        /* ============================================================
+        5. 浏览器标签页“防抛弃”闪烁逻辑 (Tab Abandonment Flasher)
+        ============================================================ */
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 保存页面原本的标题
+            const originalTitle = document.title;
+
+            // 2. 定义你要闪烁的两个吸引眼球的标题
+            // 技巧：使用 Emoji (🔴, ⚠️) 模拟图标闪烁的效果，这比替换 favicon.ico 文件更稳定且不费流量
+            const flashTitle1 = "💬 WAIT! Order Not Complete";
+            const flashTitle2 = "🎁 Item in Cart...";
+
+            let flashTimer = null;
+
+            // 当用户离开页面 (切换标签)
+            window.addEventListener("blur", () => {
+                // 防止重复开启定时器
+                if (flashTimer) clearInterval(flashTimer);
+
+                // 立即先变一次
+                document.title = flashTitle1;
+
+                // 开启循环，每 1000 毫秒 (1秒) 切换一次
+                flashTimer = setInterval(() => {
+                    document.title = (document.title === flashTitle1) ? flashTitle2 : flashTitle1;
+                }, 800);
+            });
+
+            // 当用户回到页面
+            window.addEventListener("focus", () => {
+                // 清除定时器
+                if (flashTimer) {
+                    clearInterval(flashTimer);
+                    flashTimer = null;
+                }
+                // 还原原本的标题
+                document.title = originalTitle;
+            });
+        });
+
+        /* ============================================================
+        3. 伪动态评论时间逻辑 (Social Proof Timeline)
+        在代码里找到最新的回复（比如 Sarah OP 的那个回复），把 data-hours 设得非常小，比如 0.1，每隔一会就回变动
+        对应的HTML代码 <span class="dynamic-date text-xs text-gray-400 font-sans" data-days="48"></span>
+        ============================================================ */
+        // function initDynamicTimes() {
+        //     const timeElements = document.querySelectorAll('.dynamic-time');
+        //     const now = new Date();
+
+        //     timeElements.forEach(el => {
+        //         // 获取预设的小时数 (默认为0)
+        //         const hoursAgo = parseFloat(el.getAttribute('data-hours')) || 0;
+
+        //         // 计算目标时间
+        //         const targetDate = new Date(now.getTime() - (hoursAgo * 60 * 60 * 1000));
+
+        //         // 计算具体的差异
+        //         const diffInSeconds = Math.floor((now - targetDate) / 1000);
+        //         const diffInMinutes = Math.floor(diffInSeconds / 60);
+        //         const diffInHours = Math.floor(diffInMinutes / 60);
+        //         const diffInDays = Math.floor(diffInHours / 24);
+
+        //         let displayString = "";
+
+        //         // 智能格式化逻辑
+        //         if (diffInMinutes < 60) {
+        //             // 不到1小时，显示分钟 (增加真实感，有时候加上 'Just now')
+        //             displayString = diffInMinutes < 2 ? "Just now" : `${diffInMinutes} minutes ago`;
+        //         } else if (diffInHours < 24) {
+        //             // 不到24小时，显示小时
+        //             displayString = `${diffInHours} hours ago`;
+        //         } else if (diffInDays === 1) {
+        //             // 昨天
+        //             displayString = "Yesterday";
+        //         } else if (diffInDays < 7) {
+        //             // 7天内
+        //             displayString = `${diffInDays} days ago`;
+        //         } else {
+        //             // 超过7天，显示具体日期 (例如: Jan 14)
+        //             const options = { month: 'short', day: 'numeric' };
+        //             displayString = targetDate.toLocaleDateString('en-US', options);
+        //         }
+
+        //         // 渲染到页面
+        //         el.innerText = displayString;
+        //     });
+        // }
+
+        // // 记得在 DOMContentLoaded 里调用它
+        // initDynamicTimes();
+
 
         /* ============================================================
            1. 移植部分：弹出窗口逻辑 
@@ -1827,8 +1724,7 @@
         }
 
         /* ============================================================
-           2. 移植部分：计算器与交互逻辑 (来自 6.html)
-           已调整为适配 code2 的 Material Icons 和颜色变量
+           2. 移植部分：计算器与交互逻辑 
            ============================================================ */
         let calcState = { material: 'plastic', age: 2, usage: 2 };
 
@@ -1923,8 +1819,14 @@
                 recBox.className = "bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start transition-colors duration-500";
                 recIcon.innerText = "dangerous"; recIcon.className = "material-icons text-red-600 mt-1 text-lg";
                 recTitle.innerText = "Action Required Immediately"; recText.innerText = "Active shedding of microplastics and deep pathogen breeding grounds.";
-            }
-            else { // WOOD
+
+                // recTitle.innerText = "Action Required Immediately";
+                // recText.innerHTML = `Your board is actively shedding plastic into your food.
+                // <br>
+                // <a href="#offer-section" class="inline-block mt-2 bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded animate-pulse">
+                //     See The Titanium Solution &rarr;
+                // </a>`; // 直接在报错信息里加按钮
+            } else { // WOOD
                 plasticVal.innerText = "0g"; plasticBar.style.width = "0%";
 
                 fragilityVal.innerText = "Low (Splinters)"; fragilityVal.className = "font-bold text-orange-400";
