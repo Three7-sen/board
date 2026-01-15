@@ -1731,13 +1731,13 @@
             }, 1000);
         }
         document.addEventListener('mouseleave', (e) => {
-            // if (e.clientY < 0) {
-            //     const popup = document.getElementById('exit-intent-popup');
-            //     if (!popup.classList.contains('active')) {
-            //         popup.classList.add('active');
-            //         startTimer();
-            //     }
-            // }
+            if (e.clientY < 0) {
+                const popup = document.getElementById('exit-intent-popup');
+                if (!popup.classList.contains('active')) {
+                    popup.classList.add('active');
+                    startTimer();
+                }
+            }
         });
         function closePopup() {
             document.getElementById('exit-intent-popup').classList.remove('active');
