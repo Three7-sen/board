@@ -74,7 +74,7 @@
                 <div class="flex flex-col gap-5">
                     <!-- Button -->
                     <a class="w-full bg-primary hover:bg-green-800 text-white font-bold py-6 rounded-xl shadow-2xl hover:shadow-[0_20px_50px_rgba(27,77,62,0.4)] transition-all transform hover:-translate-y-1 text-2xl flex items-center justify-center gap-3"
-                        href="#offer" onclick="closePopup()">
+                        href="#offer">
                         Claim My 50% Savings Now
                         <span class="material-icons">keyboard_double_arrow_right</span>
                     </a>
@@ -102,7 +102,7 @@
         <div
             class="max-w-7xl mx-auto px-4 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest">
             <span>Advertisement</span>
-            <span>Food & Lifestyle • United Kingdom</span>
+            <span>Food & Lifestyle • UK</span>
         </div>
     </div>
 
@@ -117,8 +117,8 @@
                         class="text-3xl md:text-5xl font-display font-bold text-gray-900 dark:text-white leading-tight mb-4">
                         <!-- The Silent Killer in 87% of UK Homes: How Your Kitchen Is Slowly Poisoning Your Children (Hint:
                         It's Not the Food) -->
-                        Don't let your chopping board ruin your dinner. It's a long-term health risk to your family (and
-                        the ingredients are not to blame).
+                        Don't Let Your Chopping Board Poison Your Dinner: The Silent Health Risk Harming Your Family
+                        (And It’s Not the Ingredients)
                     </h1>
                     <p class="text-xl text-gray-600 dark:text-gray-300 italic font-display">
                         Stop Eating Microplastics and Bacteria! That "clean" board in your cupboard is
@@ -1625,7 +1625,7 @@
         id="comment-modal">
         <div
             class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-md w-full border-2 border-[var(--accent-gold)] overflow-hidden">
-            <div class="bg-secondary p-4 flex justify-between items-center">
+            <div id="comment-modal-header" class="bg-secondary p-4 flex justify-between items-center">
                 <h3 class="text-white font-display font-bold">Community Access</h3>
                 <!-- Button -->
                 <a class="text-white/70 hover:text-white" href="#"><span class="material-icons">close</span></a>
@@ -1663,6 +1663,50 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. 获取弹窗元素
+            const commentModal = document.getElementById('comment-modal');
+            const commentModalHeader = document.getElementById('comment-modal-header');
+
+            // 2. 获取关闭按钮 (找到弹窗头部里的那个 'a' 标签)
+            // 这里使用了选择器定位：在 #comment-modal 内部，class 为 bg-secondary 的 div 下面的 a 标签
+            const closeBtn = commentModalHeader.querySelector('a');
+
+            // 定义关闭函数
+            function closeCommentModal(e) {
+                if (e) e.preventDefault(); // 阻止链接默认跳转
+                commentModal.classList.remove('flex');
+                commentModal.classList.add('hidden');
+            }
+
+            // 3. 实现：点击 "Close" 按钮关闭
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeCommentModal);
+            }
+
+            // 4. 实现：点击空白处 (背景遮罩) 关闭
+            commentModal.addEventListener('click', function (e) {
+                // e.target 是用户实际点击的元素
+                // this 是绑定事件的元素 (即 #comment-modal 本身)
+                // 如果两者相等，说明用户点在了半透明背景上，而不是中间的白色卡片上
+                if (e.target === this) {
+                    closeCommentModal();
+                }
+            });
+
+            // ==========================================
+            // 补充：为了让你能测试关闭，你需要先能打开它
+            // 这一步是让所有 href="#comment-modal" 的按钮能触发打开
+            // ==========================================
+            const triggerLinks = document.querySelectorAll('a[href="#comment-modal"]');
+            triggerLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    commentModal.classList.remove('hidden');
+                    commentModal.classList.add('flex');
+                });
+            });
+        });
         // 逻辑：只有当用户向下滚动超过首屏后，才显示这个条
         window.addEventListener('scroll', () => {
             const footer = document.getElementById('sticky-footer');
