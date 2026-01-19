@@ -78,11 +78,10 @@
                         Claim My 50% Savings Now
                         <span class="material-icons">keyboard_double_arrow_right</span>
                     </a>
-                    <button
-                        class="text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-sm underline transition-colors decoration-dotted underline-offset-4"
-                        onclick="closePopup()">
+                    <a
+                        class="cursor-pointer text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-sm underline transition-colors decoration-dotted underline-offset-4">
                         No thanks, I'll risk it with my current board
-                    </button>
+                    </a>
                 </div>
             </div>
             <div
@@ -494,188 +493,31 @@
                     </div>
 
 
-                    <h3
+                    <h3 id="protected-content-zone"
                         class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
                         What makes Yooje™ so special?
                     </h3>
 
-                    <ul class="space-y-2 mb-8 list-none pl-0">
-                        <li class="flex items-start"><span
-                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
-                            <p class="my-0"><strong>Non-porous surface:</strong> No micro-cracks for meat juices or
-                                bacteria.</p>
-                        </li>
-                        <li class="flex items-start"><span
-                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
-                            <p class="my-0"><strong>No abrasion:</strong> Unlike plastic, titanium doesn't release
-                                particles into
-                                food.</p>
-                        </li>
-                        <li class="flex items-start"><span
-                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
-                            <p class="my-0"><strong>Antibacterial properties:</strong> Titanium is naturally very low in
-                                germs.</p>
-                        </li>
-                        <li class="flex items-start"><span
-                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
-                            <p class="my-0"><strong>Gentle on knives:</strong> The surface is treated to be "glass-like"
-                                but not
-                                damaging to blades.</p>
-                        </li>
-                    </ul>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
-                        <div
-                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">blur_off</span>
-                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Zero Residue</h4>
-                            <p class="text-xs text-gray-500 mt-1">Nothing sticks, nothing stains.</p>
-                        </div>
-                        <div
-                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">grain</span>
-                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">No Microplastics</h4>
-                            <p class="text-xs text-gray-500 mt-1">100% pure solid titanium.</p>
-                        </div>
-                        <div
-                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
-                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">verified_user</span>
-                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Lifetime Durability</h4>
-                            <p class="text-xs text-gray-500 mt-1">Buy once, use forever.</p>
-                        </div>
-                    </div>
+                    <!-- 动态注入 -->
 
-                    <div class="dark:border-gray-800">
-                        <h3
-                            class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
-                            Safe, non-toxic, easy to clean – ideal for any kitchen
-                        </h3>
-                        <div
-                            class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-10 shadow-sm text-center">
-                            <p
-                                class="text-xl font-display font-bold text-[var(--primary-color)] dark:text-green-400 mb-2">
-                                100% Pure Titanium</p>
-                            <p class="text-gray-600 dark:text-gray-300 font-sans text-sm uppercase tracking-wide mb-6">
-                                No BPA • No Coatings • No Chemicals</p>
-                            <div
-                                class="flex flex-wrap justify-center items-center gap-4 border-t border-gray-100 dark:border-gray-700 pt-4">
-                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2">Family
-                                    Friendly:</span>
-                                <div class="flex items-center gap-4 text-gray-500 dark:text-gray-400"
-                                    title="Safe for the whole family">
-                                    <div class="flex flex-col items-center gap-1">
-                                        <span
-                                            class="material-icons text-2xl text-[var(--accent-gold)]">child_care</span>
-                                        <span class="text-[9px] font-sans font-bold uppercase">Children</span>
-                                    </div>
-                                    <div class="flex flex-col items-center gap-1">
-                                        <span
-                                            class="material-icons text-2xl text-[var(--accent-gold)]">pregnant_woman</span>
-                                        <span class="text-[9px] font-sans font-bold uppercase">Mothers</span>
-                                    </div>
-                                    <div class="flex flex-col items-center gap-1">
-                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">elderly</span>
-                                        <span class="text-[9px] font-sans font-bold uppercase">Seniors</span>
-                                    </div>
-                                    <div class="flex flex-col items-center gap-1">
-                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">pets</span>
-                                        <span class="text-[9px] font-sans font-bold uppercase">Pets</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-10">
-                            <p
-                                class="text-center font-display font-bold text-lg text-gray-800 dark:text-white mb-6 italic">
-                                "You can cut anything on Yooje..."</p>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div
-                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div
-                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
-                                        <span class="material-icons text-green-600 text-2xl">egg</span>
-                                    </div>
-                                    <span
-                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Baby
-                                        Food</span>
-                                    <span class="text-[10px] text-gray-400">Pure Veg &amp; Fruit</span>
-                                </div>
-                                <div
-                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div
-                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
-                                        <span class="material-icons text-red-500 text-2xl">set_meal</span>
-                                    </div>
-                                    <span
-                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Raw
-                                        Meat</span>
-                                    <span class="text-[10px] text-gray-400">Fish &amp; Poultry</span>
-                                </div>
-                                <div
-                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div
-                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
-                                        <span class="material-icons text-yellow-500 text-2xl">bakery_dining</span>
-                                    </div>
-                                    <span
-                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Bread</span>
-                                    <span class="text-[10px] text-gray-400">Pastry &amp; Cheese</span>
-                                </div>
-                                <div
-                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div
-                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
-                                        <span class="material-icons text-purple-500 text-2xl">spa</span>
-                                    </div>
-                                    <span
-                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Strong
-                                        Odors</span>
-                                    <span class="text-[10px] text-gray-400">Onion &amp; Garlic</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="flex flex-col md:flex-row gap-6 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-6 rounded-lg items-center">
-                            <div class="flex-1">
-                                <h4
-                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
-                                    <span class="material-icons text-xl">science</span>
-                                    Taste Neutral &amp; Acid Resistant
-                                </h4>
-                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                                    Unlike copper or poor-quality steel, Titanium is completely inert. It will not react
-                                    with acidic foods like lemons or tomatoes, ensuring your food tastes exactly as it
-                                    should.
-                                </p>
-                            </div>
-                            <div class="w-px h-12 bg-blue-200 dark:bg-blue-800 hidden md:block"></div>
-                            <div class="flex-1">
-                                <h4
-                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
-                                    <span class="material-icons text-xl">auto_awesome</span>
-                                    Cleaning: Zero Scrubbing
-                                </h4>
-                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                                    The smooth, non-porous surface is easy to clean with hot water and a little dish
-                                    soap. No vigorous scrubbing required to remove stains or smells.
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
-                            <video loading="lazy"
-                                class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
-                                src="./assets/images/Board show video.mp4" autoplay="" loop="" muted="muted"
-                                playsinline="" controlslist="nodownload">
-                            </video>
-                            <!-- <img loading="lazy" alt="Chef James in Kitchen"
+                    <!-- 结束注入 -->
+
+
+                    <div
+                        class="relative my-10 rounded-xl overflow-hidden shadow-2xl border-2 border-[var(--accent-gold)] group">
+                        <video loading="lazy"
+                            class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
+                            src="./assets/images/Board show video.mp4" autoplay="" loop="" muted="muted" playsinline=""
+                            controlslist="nodownload">
+                        </video>
+                        <!-- <img loading="lazy" alt="Chef James in Kitchen"
                                 class="w-full h-[350px] m-0 object-cover brightness-[0.7] group-hover:scale-105 transition-transform duration-700"
                                 src="./assets/images/board used.webp"> -->
-                        </div>
-                        <p
-                            class="text-center font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white mt-10 leading-relaxed">
-                            "No harmful residues... a cutting board used every day with confidence."
-                        </p>
                     </div>
+                    <p
+                        class="text-center font-display font-bold text-xl md:text-2xl text-gray-900 dark:text-white mt-10 leading-relaxed">
+                        "No harmful residues... a cutting board used every day with confidence."
+                    </p>
 
                     <div
                         class="my-16 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-lg bg-white dark:bg-surface-dark">
@@ -1110,7 +952,8 @@
 
 
 
-                    <div class="my-16 py-8 border-t border-gray-200 dark:border-gray-700 font-sans">
+                    <div id="community-discussion"
+                        class="my-16 py-8 border-t border-gray-200 dark:border-gray-700 font-sans">
                         <h3
                             class="text-2xl font-display font-bold text-secondary dark:text-blue-300 mb-6 flex items-center">
                             Community Discussion
@@ -1340,95 +1183,8 @@
 
 
                     <!--Offer Section-->
-                    <section id="offer-section"
-                        class="bg-[var(--navy-deep)] border-t-4 border-[var(--accent-gold)] rounded-2xl shadow-2xl overflow-hidden py-16">
-                        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                            <h2
-                                class="text-3xl md:text-5xl font-display font-bold text-white mb-6 leading-tight uppercase tracking-tight">
-                                CHECK AVAILABILITY &amp; <span class="text-[var(--accent-gold)]">CLAIM YOUR 50%
-                                    DISCOUNT</span>
-                            </h2>
-                            <p
-                                class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10 font-body leading-relaxed">
-                                Limited UK Stock remaining. Due to recent health reports on microplastics, demand for
-                                Katori™ has
-                                surged. Ensure your kitchen is protected today.
-                            </p>
-                            <div class="max-w-xl mx-auto mb-12">
-                                <div class="flex justify-between items-end mb-2">
-                                    <span
-                                        class="text-xs font-bold text-[var(--accent-gold)] uppercase tracking-[0.2em]">Live
-                                        Stock
-                                        Status</span>
-                                    <span class="text-xs font-bold text-white uppercase tracking-wider">85% Sold
-                                        Out</span>
-                                </div>
-                                <div
-                                    class="w-full h-4 bg-white/10 rounded-full overflow-hidden border border-white/20 p-0.5">
-                                    <div class="h-full bg-[var(--accent-gold)] rounded-full w-[85%]"></div>
-                                </div>
-                                <p class="mt-4 text-white text-sm font-sans flex items-center justify-center gap-2">
-                                    <span class="material-icons text-[var(--accent-gold)] text-lg">location_on</span>
-                                    8/10 Households in <span class="underline decoration-[var(--accent-gold)]">UK</span>
-                                    are
-                                    choosing Titanium
-                                </p>
-                            </div>
-                            <!-- <div class="grid md:grid-cols-2 gap-6 mb-12">
-                                <div
-                                    class="bg-white/5 border border-white/10 rounded-xl p-8 hover:border-[var(--accent-gold)] transition-all cursor-pointer group">
-                                    <h4 class="text-white font-display font-bold text-xl mb-2">Single Katori™ Board</h4>
-                                    <p class="text-blue-200 text-sm mb-6">Essential Protection</p>
-                                    <div class="text-white font-display font-bold text-4xl mb-4">£59</div>
-                                    <div class="text-white/40 text-xs line-through mb-4">Regular Price: £118</div>
-                                    <div class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest">
-                                        50% Savings
-                                        Applied</div>
-                                </div>
-                                <div
-                                    class="bg-white rounded-xl p-8 border-4 border-[var(--accent-gold)] shadow-2xl relative transform md:scale-105">
-                                    <div
-                                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--accent-gold)] text-navy px-4 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                                        MOST POPULAR</div>
-                                    <h4 class="text-navy font-display font-bold text-xl mb-2">Family Hygiene Bundle
-                                        (2-Pack)</h4>
-                                    <p class="text-gray-500 text-sm mb-6 italic">Save an Extra £19</p>
-                                    <div class="text-navy font-display font-bold text-4xl mb-4">£99</div>
-                                    <div class="text-gray-400 text-xs line-through mb-4">Regular Price: £238</div>
-                                    <div
-                                        class="bg-green-100 text-green-800 text-xs font-bold py-1 px-3 rounded inline-block uppercase tracking-wider">
-                                        Best Value + 50% Off</div>
-                                </div>
-                            </div> -->
-                            <div class="max-w-xl mx-auto mb-10">
-                                <!-- Button -->
-                                <a class="block w-full bg-[var(--primary-color)] hover:bg-green-800 text-white font-display font-bold text-xl md:text-2xl py-6 px-8 rounded-lg shadow-[0_10px_30px_rgba(27,77,62,0.4)] transition-all transform hover:scale-[1.02] border-b-4 border-black/20"
-                                    href="#check-availability">
-                                    Apply 50% Discount &amp; Shop Now
-                                </a>
-                                <p class="mt-4 text-blue-200/60 text-[10px] uppercase tracking-[0.2em] font-sans">
-                                    Official Katori UK
-                                    Secure Storefront</p>
-                            </div>
-                            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-80">
-                                <div class="flex flex-col items-center text-white/70">
-                                    <span class="material-icons text-3xl mb-1">local_shipping</span>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest">Royal Mail Next-Day
-                                        Delivery</span>
-                                </div>
-                                <div class="flex flex-col items-center text-white/70">
-                                    <span class="material-icons text-3xl mb-1">verified</span>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest">30-Day Risk-Free
-                                        Trial</span>
-                                </div>
-                                <div class="flex flex-col items-center text-white/70">
-                                    <span class="material-icons text-3xl mb-1">lock</span>
-                                    <span class="text-[10px] font-bold uppercase tracking-widest">SSL Secure
-                                        Checkout</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    <!-- 动态注入 -->
+
                 </div>
             </article>
 
@@ -1606,6 +1362,315 @@
     </div>
 
     <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ==========================================
+            // 局部动态注入逻辑 (Insert After Specific ID)
+            // ==========================================
+
+            // 1. 设置“锚点”元素的 ID (即你想把内容插在这个元素屁股后面)
+            const targetId = 'protected-content-zone';
+            const targetElement = document.getElementById(targetId);
+            const targetId2 = 'community-discussion';
+            const targetElement2 = document.getElementById(targetId2);
+
+            // 为了防止重复注入，我们可以检查一下是否已经注入过
+            // (例如检查是否存在某个核心注入元素的 ID)
+            const alreadyInjected = document.getElementById('titanium-features');
+            const alreadyInjected2 = document.getElementById('offer-section');
+
+            if (targetElement && !alreadyInjected) {
+
+                // 2. 准备好的 HTML 字符串 (保持不变) 
+                const protectedHTML = `
+                    <ul id="titanium-features" class="space-y-2 mb-8 list-none pl-0">
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Non-porous surface:</strong> No micro-cracks for meat juices or
+                                bacteria.</p>
+                        </li>
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>No abrasion:</strong> Unlike plastic, titanium doesn't release
+                                particles into
+                                food.</p>
+                        </li>
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Antibacterial properties:</strong> Titanium is naturally very low in
+                                germs.</p>
+                        </li>
+                        <li class="flex items-start"><span
+                                class="material-icons text-primary mr-2 mt-1">check_circle</span>
+                            <p class="my-0"><strong>Gentle on knives:</strong> The surface is treated to be "glass-like"
+                                but not
+                                damaging to blades.</p>
+                        </li>
+                    </ul>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">blur_off</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Zero Residue</h4>
+                            <p class="text-xs text-gray-500 mt-1">Nothing sticks, nothing stains.</p>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">grain</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">No Microplastics</h4>
+                            <p class="text-xs text-gray-500 mt-1">100% pure solid titanium.</p>
+                        </div>
+                        <div
+                            class="bg-white dark:bg-gray-700 p-5 rounded-lg shadow-sm text-center border border-stone-200 dark:border-gray-600 hover:-translate-y-1 transition-transform">
+                            <span class="material-icons text-[var(--primary-color)] text-4xl mb-2">verified_user</span>
+                            <h4 class="font-bold text-gray-900 dark:text-white text-sm">Lifetime Durability</h4>
+                            <p class="text-xs text-gray-500 mt-1">Buy once, use forever.</p>
+                        </div>
+                    </div>
+
+                    <div class="dark:border-gray-800">
+                        <h3
+                            class="text-[var(--secondary-color)] dark:text-blue-300 font-display font-bold text-3xl mt-8 mb-6 text-center leading-tight">
+                            Safe, non-toxic, easy to clean – ideal for any kitchen
+                        </h3>
+                        <div
+                            class="bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-10 shadow-sm text-center">
+                            <p
+                                class="text-xl font-display font-bold text-[var(--primary-color)] dark:text-green-400 mb-2">
+                                100% Pure Titanium</p>
+                            <p class="text-gray-600 dark:text-gray-300 font-sans text-sm uppercase tracking-wide mb-6">
+                                No BPA • No Coatings • No Chemicals</p>
+                            <div
+                                class="flex flex-wrap justify-center items-center gap-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-wider mr-2">Family
+                                    Friendly:</span>
+                                <div class="flex items-center gap-4 text-gray-500 dark:text-gray-400"
+                                    title="Safe for the whole family">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span
+                                            class="material-icons text-2xl text-[var(--accent-gold)]">child_care</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Children</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span
+                                            class="material-icons text-2xl text-[var(--accent-gold)]">pregnant_woman</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Mothers</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">elderly</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Seniors</span>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="material-icons text-2xl text-[var(--accent-gold)]">pets</span>
+                                        <span class="text-[9px] font-sans font-bold uppercase">Pets</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-10">
+                            <p
+                                class="text-center font-display font-bold text-lg text-gray-800 dark:text-white mb-6 italic">
+                                "You can cut anything on Yooje..."</p>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-green-600 text-2xl">egg</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Baby
+                                        Food</span>
+                                    <span class="text-[10px] text-gray-400">Pure Veg &amp; Fruit</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-red-500 text-2xl">set_meal</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Raw
+                                        Meat</span>
+                                    <span class="text-[10px] text-gray-400">Fish &amp; Poultry</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-yellow-500 text-2xl">bakery_dining</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Bread</span>
+                                    <span class="text-[10px] text-gray-400">Pastry &amp; Cheese</span>
+                                </div>
+                                <div
+                                    class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white dark:bg-gray-900 rounded-full shadow-sm flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <span class="material-icons text-purple-500 text-2xl">spa</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-bold font-sans uppercase tracking-wide text-gray-600 dark:text-gray-300">Strong
+                                        Odors</span>
+                                    <span class="text-[10px] text-gray-400">Onion &amp; Garlic</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="flex flex-col md:flex-row gap-6 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 p-6 rounded-lg items-center">
+                            <div class="flex-1">
+                                <h4
+                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
+                                    <span class="material-icons text-xl">science</span>
+                                    Taste Neutral &amp; Acid Resistant
+                                </h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    Unlike copper or poor-quality steel, Titanium is completely inert. It will not react
+                                    with acidic foods like lemons or tomatoes, ensuring your food tastes exactly as it
+                                    should.
+                                </p>
+                            </div>
+                            <div class="w-px h-12 bg-blue-200 dark:bg-blue-800 hidden md:block"></div>
+                            <div class="flex-1">
+                                <h4
+                                    class="font-display font-bold text-[var(--secondary-color)] dark:text-blue-200 mb-2 flex items-center gap-2">
+                                    <span class="material-icons text-xl">auto_awesome</span>
+                                    Cleaning: Zero Scrubbing
+                                </h4>
+                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    The smooth, non-porous surface is easy to clean with hot water and a little dish
+                                    soap. No vigorous scrubbing required to remove stains or smells.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // 3. 核心修改：使用 insertAdjacentHTML('afterend', ...)
+                // 'beforebegin': 插入到 targetElement 前面
+                // 'afterbegin':  插入到 targetElement 内部的最前面
+                // 'beforeend':   插入到 targetElement 内部的最后面
+                // 'afterend':    插入到 targetElement 后面 (我们要用的就是这个)
+
+                setTimeout(() => {
+                    targetElement.insertAdjacentHTML('afterend', protectedHTML);
+
+                    // 4. 重新初始化计算器或其他交互逻辑 (如果有的话)
+                    // if (typeof updateCalculator === 'function') {
+                    //     updateCalculator();
+                    // }
+
+                    // (可选) 如果你想给新插入的内容加个淡入动画，可以在 CSS 里给它们默认 opacity: 0，然后在这里改成 1
+
+                }, 50); // 同样保持微小延迟，让主线程喘口气
+            }
+
+            if (targetElement2 && !alreadyInjected2) {
+                const protectedHTML2 = `
+                    <section id="offer-section"
+                        class="bg-[var(--navy-deep)] border-t-4 border-[var(--accent-gold)] rounded-2xl shadow-2xl overflow-hidden py-16">
+                        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h2
+                                class="text-3xl md:text-5xl font-display font-bold text-white mb-6 leading-tight uppercase tracking-tight">
+                                CHECK AVAILABILITY &amp; <span class="text-[var(--accent-gold)]">CLAIM YOUR 50%
+                                    DISCOUNT</span>
+                            </h2>
+                            <p
+                                class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10 font-body leading-relaxed">
+                                Limited UK Stock remaining. Due to recent health reports on microplastics, demand for
+                                Katori™ has
+                                surged. Ensure your kitchen is protected today.
+                            </p>
+                            <div class="max-w-xl mx-auto mb-12">
+                                <div class="flex justify-between items-end mb-2">
+                                    <span
+                                        class="text-xs font-bold text-[var(--accent-gold)] uppercase tracking-[0.2em]">Live
+                                        Stock
+                                        Status</span>
+                                    <span class="text-xs font-bold text-white uppercase tracking-wider">85% Sold
+                                        Out</span>
+                                </div>
+                                <div
+                                    class="w-full h-4 bg-white/10 rounded-full overflow-hidden border border-white/20 p-0.5">
+                                    <div class="h-full bg-[var(--accent-gold)] rounded-full w-[85%]"></div>
+                                </div>
+                                <p class="mt-4 text-white text-sm font-sans flex items-center justify-center gap-2">
+                                    <span class="material-icons text-[var(--accent-gold)] text-lg">location_on</span>
+                                    8/10 Households in <span class="underline decoration-[var(--accent-gold)]">UK</span>
+                                    are
+                                    choosing Titanium
+                                </p>
+                            </div>
+                            <!-- <div class="grid md:grid-cols-2 gap-6 mb-12">
+                                <div
+                                    class="bg-white/5 border border-white/10 rounded-xl p-8 hover:border-[var(--accent-gold)] transition-all cursor-pointer group">
+                                    <h4 class="text-white font-display font-bold text-xl mb-2">Single Katori™ Board</h4>
+                                    <p class="text-blue-200 text-sm mb-6">Essential Protection</p>
+                                    <div class="text-white font-display font-bold text-4xl mb-4">£59</div>
+                                    <div class="text-white/40 text-xs line-through mb-4">Regular Price: £118</div>
+                                    <div class="text-[var(--accent-gold)] text-xs font-bold uppercase tracking-widest">
+                                        50% Savings
+                                        Applied</div>
+                                </div>
+                                <div
+                                    class="bg-white rounded-xl p-8 border-4 border-[var(--accent-gold)] shadow-2xl relative transform md:scale-105">
+                                    <div
+                                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[var(--accent-gold)] text-navy px-4 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                        MOST POPULAR</div>
+                                    <h4 class="text-navy font-display font-bold text-xl mb-2">Family Hygiene Bundle
+                                        (2-Pack)</h4>
+                                    <p class="text-gray-500 text-sm mb-6 italic">Save an Extra £19</p>
+                                    <div class="text-navy font-display font-bold text-4xl mb-4">£99</div>
+                                    <div class="text-gray-400 text-xs line-through mb-4">Regular Price: £238</div>
+                                    <div
+                                        class="bg-green-100 text-green-800 text-xs font-bold py-1 px-3 rounded inline-block uppercase tracking-wider">
+                                        Best Value + 50% Off</div>
+                                </div>
+                            </div> -->
+                            <div class="max-w-xl mx-auto mb-10">
+                                <!-- Button -->
+                                <a class="block w-full bg-[var(--primary-color)] hover:bg-green-800 text-white font-display font-bold text-xl md:text-2xl py-6 px-8 rounded-lg shadow-[0_10px_30px_rgba(27,77,62,0.4)] transition-all transform hover:scale-[1.02] border-b-4 border-black/20"
+                                    href="#check-availability">
+                                    Apply 50% Discount &amp; Shop Now
+                                </a>
+                                <p class="mt-4 text-blue-200/60 text-[10px] uppercase tracking-[0.2em] font-sans">
+                                    Official Katori UK
+                                    Secure Storefront</p>
+                            </div>
+                            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-80">
+                                <div class="flex flex-col items-center text-white/70">
+                                    <span class="material-icons text-3xl mb-1">local_shipping</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">Royal Mail Next-Day
+                                        Delivery</span>
+                                </div>
+                                <div class="flex flex-col items-center text-white/70">
+                                    <span class="material-icons text-3xl mb-1">verified</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">30-Day Risk-Free
+                                        Trial</span>
+                                </div>
+                                <div class="flex flex-col items-center text-white/70">
+                                    <span class="material-icons text-3xl mb-1">lock</span>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest">SSL Secure
+                                        Checkout</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+
+                setTimeout(() => {
+                    targetElement2.insertAdjacentHTML('afterend', protectedHTML2);
+
+                }, 50); // 同样保持微小延迟，让主线程喘口气
+            }
+
+        });
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
             // 1. 获取弹窗元素
             const commentModal = document.getElementById('comment-modal');
@@ -1637,6 +1702,20 @@
                 }
             });
 
+            // =========================================
+            // 核心修复：让内容里的 "Order Now" 按钮点击后也关闭弹窗
+            // =========================================
+            // 找到弹窗内容区域所有的 a 标签 (排除掉头部的关闭按钮)
+            const contentLinks = commentModal.querySelectorAll('.p-8 a');
+
+            contentLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    // 这里不加 preventDefault，允许它跳转锚点
+                    // 只是顺便把弹窗关掉
+                    closeCommentModal();
+                });
+            });
+
             // ==========================================
             // 补充：为了让你能测试关闭，你需要先能打开它
             // 这一步是让所有 href="#comment-modal" 的按钮能触发打开
@@ -1650,6 +1729,9 @@
                 });
             });
         });
+
+
+
         // 逻辑：只有当用户向下滚动超过首屏后，才显示这个条
         window.addEventListener('scroll', () => {
             const footer = document.getElementById('sticky-footer');
@@ -1659,6 +1741,7 @@
                 footer.style.transform = 'translateY(100%)'; // 隐藏
             }
         });
+
 
         /* ============================================================
         5. 浏览器标签页“防抛弃”闪烁逻辑 (Tab Abandonment Flasher)
@@ -1786,12 +1869,19 @@
                 if (typeof startTimer === 'function') startTimer();
             }
 
-            // 2. 定义关闭弹窗函数 
-            // 关键点：挂载到 window 对象上，因为你的 HTML 按钮里写了 onclick="closePopup()"
-            window.closePopup = function () {
+            function closePopupModal() {
                 popup.classList.remove('flex');
                 popup.classList.add('hidden');  // 加回隐藏
             }
+
+            const contentLinks = popup.querySelectorAll('.p-8 a');
+            contentLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    // 这里不加 preventDefault，允许它跳转锚点
+                    // 只是顺便把弹窗关掉
+                    closePopupModal();
+                });
+            });
 
             // 3. 触发器：鼠标移出浏览器顶部 (Desktop)
             document.addEventListener('mouseleave', (e) => {
@@ -1804,24 +1894,11 @@
             popup.addEventListener('click', function (e) {
                 // 如果点击的是背景遮罩层(this)，而不是里面的内容卡片
                 if (e.target === this) {
-                    closePopup();
+                    closePopupModal();
                 }
             });
         });
 
-
-        // document.addEventListener('mouseleave', (e) => {
-        //     if (e.clientY < 0) {
-        //         const popup = document.getElementById('exit-intent-popup');
-        //         if (!popup.classList.contains('active')) {
-        //             popup.classList.add('active');
-        //             startTimer();
-        //         }
-        //     }
-        // });
-        // function closePopup() {
-        //     document.getElementById('exit-intent-popup').classList.remove('active');
-        // }
 
         /* ============================================================
            2. 移植部分：计算器与交互逻辑 
