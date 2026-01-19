@@ -1399,14 +1399,16 @@
                 ON THIS SITE.
             </p>
             <div
-                class="flex justify-center space-x-6 text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider">
-                <a class="hover:underline" href="#">Privacy Policy</a>
-                <a class="hover:underline" href="#">Terms of Use</a>
-                <a class="hover:underline" href="#">Contact Us</a>
-                <a class="hover:underline" href="#">Imprint</a>
+                class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-xs text-gray-600 dark:text-gray-400 font-bold uppercase tracking-wider px-4">
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="shipping">Shipping</a>
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="return">Return Policy</a>
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="about">About Us</a>
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="privacy">Privacy Policy</a>
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="contact">Contact Us</a>
+                <a class="hover:underline cursor-pointer info-trigger" data-modal-type="imprint">Imprint</a>
             </div>
             <p class="text-xs text-gray-400 dark:text-gray-600 mt-8">
-                Copyright © 2025 Yooje. | All rights reserved.
+                Copyright © 2026 Yooje. | All rights reserved.
             </p>
         </div>
     </footer>
@@ -1451,6 +1453,41 @@
             </a>
         </div>
     </div>
+
+
+
+    <div id="info-modal"
+        class="fixed inset-0 z-[2000] hidden items-center justify-center p-4 bg-gray-900/80 backdrop-blur-sm transition-opacity">
+
+        <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-2xl mx-auto border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col max-h-[85vh]">
+
+            <div
+                class="flex-none flex justify-between items-center p-5 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                <h3 id="info-modal-title"
+                    class="text-lg md:text-xl font-display font-bold text-gray-900 dark:text-white break-words pr-4">
+                    Title
+                </h3>
+                <button id="info-modal-close"
+                    class="text-gray-400 hover:text-red-500 transition-colors p-1 flex-shrink-0">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+
+            <div id="info-modal-body"
+                class="flex-1 p-6 overflow-y-auto text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-sans space-y-4 break-words">
+            </div>
+
+            <div
+                class="flex-none p-4 border-t border-gray-100 dark:border-gray-700 text-right bg-gray-50 dark:bg-gray-800/50">
+                <button id="info-modal-btn"
+                    class="px-6 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg text-xs font-bold uppercase transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
 
@@ -1658,7 +1695,6 @@
         });
 
 
-
         document.addEventListener('DOMContentLoaded', () => {
 
             // =================配置区=================
@@ -1796,6 +1832,157 @@
                     e.preventDefault();
                     commentModal.classList.remove('hidden');
                     commentModal.classList.add('flex');
+                });
+            });
+        });
+
+
+        // 信息弹窗
+        document.addEventListener('DOMContentLoaded', function () {
+            const infoModal = document.getElementById('info-modal');
+            const infoModalClose = document.getElementById('info-modal-close');
+            const infoModalBtn = document.getElementById('info-modal-btn');
+            const infoModalTitle = document.getElementById('info-modal-title');
+            const infoModalBody = document.getElementById('info-modal-body');
+
+            // 打开弹窗
+            function openInfoModal(title, content) {
+                infoModalTitle.textContent = title;
+                infoModalBody.innerHTML = content;
+                infoModal.classList.remove('hidden');
+                infoModal.classList.add('flex');
+            }
+
+            // 关闭弹窗
+            function closeInfoModal() {
+                infoModal.classList.remove('flex');
+                infoModal.classList.add('hidden');
+            }
+
+            // 添加事件监听
+            infoModalClose.addEventListener('click', closeInfoModal);
+            infoModalBtn.addEventListener('click', closeInfoModal);
+            // ==========================================
+            // 新增：点击空白处 (背景遮罩) 关闭弹窗
+            // ==========================================
+            infoModal.addEventListener('click', function (e) {
+                // e.target 是鼠标实际点击的元素
+                // this 是 infoModal 容器本身 (即 id="info-modal" 的那个 div)
+
+                // 只有当点击的是背景(this)，而不是中间的白框时，才执行关闭
+                if (e.target === this) {
+                    closeInfoModal();
+                }
+            });
+
+            // 模拟点击触发
+            const infoTriggers = document.querySelectorAll('.info-trigger');
+            infoTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const type = this.getAttribute('data-modal-type');
+                    let title = '';
+                    let content = '';
+                    // shipping，return，about，privacy，contact，imprint
+                    switch (type) {
+                        case 'shipping':
+                            title = 'Shipping Policy';
+                            content =
+                                `
+                                <p>Here are our shipping service options. Please note that delivery times are given as an indication and may be subject to delays in special circumstances.</p>
+                                <p>Standard delivery:</p>
+                                <p>Cost: $9.99 Delivery time: 5-10 days Free delivery . Once your order has been shipped, you will immediately receive a shipping notification via email. We thank you for your patience.</p>
+                                <p>Fast delivery times and methods</p>
+                                <p>We want your order to be delivered as quickly as possible. Therefore, almost all orders ship within 1 business day. There are some countries where we cannot deliver at the moment. As long as your country appears in the list of countries when you enter your shipping address, we can deliver to you! Due to international customs regulations, we cannot offer a free exchange service for international orders. Return or exchange costs are the responsibility of the recipient. Customs fees and import duties are the responsibility of the recipient and vary depending on the country and the order. We ask that you understand that customs duties and taxes are not refundable. We ship to almost every country in the world and use the services of a large, trusted international carrier to ensure your packages arrive quickly and safely at their destination. After successfully placing your order, you will receive an email confirmation from us. If you have any special requests regarding your order, please let us know as soon as possible before your items are being processed. Note: For orders containing multiple items, processing time will depend on the longest processing time among the items. We perform strict quality control on your items and ensure they are properly packaged before shipping. We are happy to inform you that most orders are now shipped within 24 hours. Please note that for some small orders it may still take 3-5 business days depending on stock. We ask you to believe in us - it's worth the wait. Please note that processing time does not include delivery time. If you experience any issues with your order, you can submit a ticket to our support center for further assistance. Our dedicated customer service team will contact you within 24 hours. We work with major international shipping companies and offer different shipping options. During the ordering process, you will be able to select your preferred delivery method on the order information page. Note: During holiday periods, shipping times may be affected as manufacturers and delivery services limit operations during these times. Although this is unfortunately beyond our control, we will do our best to resolve this issue. If you have any other questions, feel free to send them to customer@yooje.uk</p>
+                                `;
+                            break;
+                        case 'return':
+                            title = 'Return Policy';
+                            content = `
+                                <p>Eligible returns of products purchased on Hatmeo should be made by mail. Items must be returned in accordance with the requirements outlined below, within 30 days from the date of delivery to a specified address which our customer service will provide. Customers need to apply through (<strong>customer@yooje.uk</strong>) and get consent by our customer serivice. We will NOT provide any return label, and customers need to send the tracking number to our customer service by email. If customers return products to an address without our permission, we have rights to refuse the returns or refund.&nbsp;</p>
+                                <p>Please return merchandise in its original box if possible and include the provided return slip with returns instructions.</p>
+                                <p>Exchange: Customers should bear the return shipping fees and ￡6.99 resend shipping fee themselves; we will re-send products to customers once we receive the products. Returned merchandise must meet the below requirements in order to be accepted for a refund.</p>
+                                <p>Returns: The address on the package is only the address of the last processing center, not the return address. To get the return address, please contact our customer service via&nbsp;<strong><a href="mailto:customer@yooje.uk" target="_blank" rel="noopener">customer@yooje.uk</a></strong>.</p>
+                                <p>Customers should bear the return shipping fees themselves; we will refund(deduct the￡6.99 shipping fee we paid when shipping the goods include free-shipping products) to customers once we receive the products. Returned merchandise must meet the below requirements in order to be accepted for a refund.</p>
+                                <p>All items must be in original condition with original tags attached. Merchandise that has been worn, used, altered or damaged will not be accepted.</p>
+                                <p>Once we receive the items and inspect them you will receive your refund. Allow up to 5 business days after receipt in our warehouse to process the refund. The refund will be applied to your original credit card or payment method.&nbsp;</p>
+                                <p>（Please note that due to the hygiene and safety of other customers, we do not offer returns or exchanges on any panties sold on this site. If the product itself has quality problems, please contact our customer service. We will send you a new package or refund you.）</p>
+                                <p>Please note that refunds are not offered for merchandise returned after the 30-day period.</p>
+                                <p><span class="HwtZe" lang="en"><span class="ryNqvb">The product/service on this website is offered by a company based outside the EU.</span> <span class="ryNqvb">Therefore, it may be difficult for you to exercise your 14-day right of return.</span> <span class="ryNqvb">Please see the Terms and Conditions for more information.</span>&nbsp;</span></p>
+                                <p><span class="HwtZe" lang="en"><span class="ryNqvb">1. Return shipping costs are the responsibility of the buyer.</span> </span></p>
+                                <p><span class="HwtZe" lang="en"><span class="ryNqvb">2. Additional costs such as customs duties and taxes may apply depending on the country of return.</span>&nbsp;</span></p>
+                                <p>&nbsp;</p>
+                            `;
+                            break;
+                        case 'about':
+                            title = 'About Us';
+                            content = `
+                                    <p>Yooje is a global online retail company that delivers products directly to consumers around the world. Founded in 2016, yooje has offered customers a convenient way to shop for a wide selection of lifestyle products at attractive prices through different websites, which are available in multiple major languages.</p>
+                                    <p>yooje 's mission:</p>
+                                    <p>yooje offers products in the categories of bras,shoes and other general merchandise. yooje's innovative data-driven business model allows itself to offer products, at scale for optimal marketing, merchandising, and fulfillment. yooje's unique strengths: yooje is bringing the best merchandise partners, manufacturers and brands of all sizes to your doorstops because of our: Ability to Manufacture the best products Experience in managing complex logistical supply chains Consumer-to-Manufacturing</p>
+                            `;
+                            break;
+                        case 'privacy':
+                            title = 'Privacy Policy';
+                            content = `
+                                <p>Section 1 - How do we handle your data?</p>
+                                <p>When you make a purchase in our store, we collect the personal data that you provide, such as your name, address, and email address, as part of the buying and selling process. When you browse our store, we also automatically receive your computer's IP address to provide us with information about your browser and operating system. Email marketing (if applicable): With your permission, we may send you emails about our store, new products, and other updates.</p>
+                                <p>Section 2 - Consent</p>
+                                <p>How do you get my consent? If we ask for personal information for another reason, such as for marketing purposes, we will directly ask for your explicit consent, or we will give you the opportunity to refuse.</p>
+                                <p>How can I withdraw my consent? If you change your mind after subscribing, you can withdraw your consent by contacting us at any time at <strong>customer@yooje.uk</strong>, and we will unsubscribe you from our mailing lists.</p>
+                                <p>Section 3 - Disclosure We may disclose your personal information if we are legally required to do so or if you violate our terms of use.</p>
+                                <p>Payment:</p>
+                                <p>If you choose a direct payment gateway to complete your purchase, Shopify will store your credit card data. They are encrypted according to the Payment Card Industry Data Security Standard (PCI-DSS). The data related to your purchase transaction is stored only for the duration necessary to complete your transaction. Once your transaction is completed, your transaction data will be deleted.</p>
+                                <p>All direct payment gateways adhere to the standards set by PCI-DSS, which is managed by the Payment Card Industry Security Standards Council, a joint effort of payment card brands such as Visa, MasterCard, American Express, and Discover.</p>
+                                <p>The PCI-DSS requirements help ensure the secure processing of payment information for our store and its service providers.</p>
+                                <p>Section 4 - Third-party services</p>
+                                <p>In general, the third-party providers we use will only collect, use, and disclose your information to the extent necessary to enable them to provide the services they provide to us.</p>
+                                <p>Certain third-party providers, such as payment gateways and other payment processors, have their own privacy policies regarding the information we are required to provide to them for your purchase-related transactions.</p>
+                                <p>We recommend that you carefully read their privacy policies to understand how they will handle your personal information.</p>
+                                <p>It is important to note that some providers may be located in a country different from where you are located or have facilities located in a different country than where you or we are. If you choose to engage in a transaction that involves the services of a third-party provider, then your information may be subject to the laws of the country or facility where that provider is located.</p>
+                                <p>For example, if you are located in Canada and your transaction is processed by a payment gateway located in the United States, the personal information you used to make that transaction may be disclosed under American legislation, including the Patriot Act.</p>
+                                <p>Once you leave our store's website or are redirected to a third-party website or application, you are no longer governed by this privacy policy or the terms of use of our website.</p>
+                                <p>Section 5 - Security</p>
+                                <p>To protect your personal information, we take reasonable precautions and follow industry best practices to ensure that it is not lost, misused, accessed, disclosed, altered, or destroyed inappropriately.</p>
+                                <p>If you provide us with your credit card information, it is encrypted using SSL (Secure Socket Layer) technology and stored with AES-256 encryption. While no method of transmitting data over the Internet or electronic storage is completely secure, we follow all PCI-DSS requirements and implement additional generally accepted industry standards.</p>
+                                <p>Section 6 - Age Consent</p>
+                                <p>By using our site, you warrant that you are at least the age of majority in your country of residence, or that you have reached the age of majority in your country of residence and have given your consent for your minor children to use this site.</p>
+                                <p>Section 7 - Changes to this Privacy Policy</p>
+                                <p>We reserve the right to modify this privacy policy at any time, so please review it frequently. Changes and clarifications will take effect immediately upon their posting on the website. If we make significant changes to this policy, we will notify you here that it has been updated, so that you are aware of what information we collect, how we use it, and under what circumstances, if any, we use and/or disclose it.</p>
+                                <p>If our store is acquired by another company or merges with another company, your information may be transferred to the new owners so that we can continue to sell products to you.</p>
+                                <p>Questions and contact information</p>
+                                <p>If you would like to access, correct, modify, or delete your personal information, file a complaint, or simply get more information, please contact our Data Protection Officer at <strong>customer@yooje.uk</strong></p>
+                                <p>By using our site, you (the visitor) consent to the processing of your IP address by third parties to determine your location for currency conversion purposes. You also consent to this currency being stored in a session cookie in your browser (this temporary cookie will be automatically removed when you close your browser). We do this to maintain consistency while browsing our site and convert prices into your local currency (the visitor).</p>
+                            `;
+                            break;
+                        case 'contact':
+                            title = 'Contact Us';
+                            content = `
+                            <p>We strive to provide the best products and customer service. If you have any questions or comments, please send us an email. We are always delighted to hear from you.</p>
+                            <ul class="contact-address">
+                            <li class="email">EMAIL: customer@yooje.uk</li>
+                            <li class="email">Mon. - Fri. : 9:00 am - 9:00 pm</li>
+                            <li class="email">Office Address: FLAT/ RM B 5/F GAYLORD COMM BLDG 114-118 LOCKHART RD HK, HONG KONG, HONG KONG, 999077</li>
+                            <li class="email">+852 6123 4675</li>
+                            </ul>
+                            `;
+                            break;
+                        case 'imprint':
+                            title = 'Imprint';
+                            content = `
+                                <p>Address: Hong Kong Company Name: XENTAL TECH LMITED.</p>
+                                <p>Company Type: Company</p>
+                                <p>Company Registration Number: 2818807</p>
+                                <p>Legal Representative: Alex Wong</p>
+                                <p>Company Address: FLAT RM B 5/F GAYLORD COMM BLDG 14-18 LOCKHART RD HK, HONG KONG, HONG KONG, 999077 *Please note that this address is not a returns warehouse.</p>
+                                <p>Email: <a href="mailto:customer@yooje.uk" target="_blank" rel="noopener">customer@yooje.uk</a></p>
+                                <p>Website: <a href="https://www.yooje.uk" target="_blank" rel="noopener">https://www.yooje.uk</a></p>
+                                <p>Tax Number: lM4420001201</p>
+                            `;
+                            break;
+                    }
+
+                    openInfoModal(title, content);
                 });
             });
         });
